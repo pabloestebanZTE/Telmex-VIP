@@ -5,7 +5,7 @@
         <?php $this->load->view('parts/generic/header'); ?>
         <link href="<?= URL::to('assets/css/inputFile.css') ?>" rel="stylesheet" />
 
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" id="formFileUpload">
             <input type="file" name="idarchivo">
             <p>Arrastra tu archivo aquí o haz clic en esta área.</p>
             <button type="submit" class="btn btn-primary" >UpLoad  <span class="glyphicon glyphicon-ok"></span></button>
@@ -19,6 +19,7 @@
                 });
             });
         </script>
+        <script src="<?= URL::to("assets/js/modules/loadInformation.js") ?>" type="text/javascript"></script>
 
     </body>
 </html>
