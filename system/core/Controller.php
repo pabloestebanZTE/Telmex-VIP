@@ -93,8 +93,6 @@ class CI_Controller {
         $this->load->model('bin/Redirect');
         $this->load->model('bin/DeplynAutoloader');
         $this->load->model('bin/ObjUtil');
-        $this->load->model('dto/ReporteComentarioModel');
-        $this->load->model('data/Dao_audit_model');
         $this->request = new Request();
         DeplynAutoloader::register();
         date_default_timezone_set("America/Bogota");
