@@ -8,7 +8,7 @@
         <form method="post" enctype="multipart/form-data" id="formFileUpload">
             <input type="file" name="idarchivo">
             <p>Arrastra tu archivo aquí o haz clic en esta área.</p>
-            <button type="submit" class="btn btn-primary" >UpLoad  <span class="glyphicon glyphicon-ok"></span></button>
+            <button id="btnUploadFile" type="submit" class="btn btn-primary" >UpLoad  <span class="glyphicon glyphicon-ok"></span></button>
         </form>
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->

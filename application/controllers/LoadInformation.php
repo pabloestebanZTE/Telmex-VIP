@@ -129,17 +129,18 @@ class LoadInformation extends CI_Controller {
                         //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel
                         similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[0], $pName);
                         //porcentaje de similar entre primer apellido de db y segunda palabra (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[1], $pLastname1);
+                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[1], $pLastname1);
                         //porcentaje de similar entre primer apellido de db y tercera (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[2], $pLastname2);
+                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[2], $pLastname2);
                         //porcentaje de similar entre primer apellido de db y cuarta (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[3], $pLastname3);
+                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[3], $pLastname3);
                         if ($pName > 70) {
                             if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
                                 $x++;
                             }
                         }
                     }
+                    $row++;
                 }
 
                 if (($limit - $row) >= 2) {
