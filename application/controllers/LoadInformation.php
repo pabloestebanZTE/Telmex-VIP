@@ -98,6 +98,9 @@ class LoadInformation extends CI_Controller {
                 $validator = new Validator();
                 $userModel = new Dao_user_model();
                 $otHijaModel = new Dao_ot_hija_model();
+                $estadoOtModel = new Dao_estado_ot_model();
+                $tipoOtHijaModel = new Dao_tipo_ot_hija_model();
+                
                 $inputFileType = PHPExcel_IOFactory::identify($file);
                 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
                 $objReader->setReadDataOnly(true);
@@ -143,7 +146,10 @@ class LoadInformation extends CI_Controller {
                                 if ($otHija) {
                                     //validamos que el estado de la ot del excel sea igual al estado del registro en DB
                                     if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo) {
+                                        //consultamos el id del tipo de trabajo de la ot
+                                        $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
                                         //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
+                                        $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija->id_tipo, $otHija->ot_hija, $this->getValueCell($sheet, 'AV' . $row));
                                     } else {
                                         //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
                                     }

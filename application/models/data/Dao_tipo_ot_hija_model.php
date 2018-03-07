@@ -4,18 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //    session_start();
 
-class Dao_user_model extends CI_Model {
+class Dao_tipo_ot_hija_model extends CI_Model {
 
     protected $session;
 
     public function __construct() {
-        $this->load->model('dto/UserModel');
+        $this->load->model('dto/TipoOtHijaModel');
     }
 
     public function getAll() {
         try {
-            $user = new UserModel();
-            $datos = $user->get();
+            $tipoOtHija = new TipoOtHijaModel();
+            $datos = $tipoOtHija->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -24,11 +24,16 @@ class Dao_user_model extends CI_Model {
         }
     }
 
-    public function getAllEngineers() {
+    public function getIdTypeByNameType($nombreTipo) {
         try {
             $db = new DB();
-            $sql = "SELECT UPPER(CONCAT(n_name_user, ' ', n_last_name_user)) ingenieros
-                FROM user WHERE n_role_user = 'ingeniero'";
+            $sql = "SELECT 
+                    n_name_tipo,
+                    CASE
+                        WHEN i_referencia IS NULL THEN k_id_tipo
+                        ELSE i_referencia
+                    END AS id_tipo
+                    FROM tipo_ot_hija WHERE n_name_tipo = '$nombreTipo'";
             $data = $db->select($sql)->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($data);
