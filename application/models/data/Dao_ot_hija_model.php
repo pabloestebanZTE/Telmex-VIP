@@ -4,19 +4,19 @@
 
 //    session_start();
 
-    class Dao_user_model extends CI_Model{
+    class Dao_ot_hija_model extends CI_Model{
 
         protected $session;
 
         public function __construct(){
-           $this->load->model('dto/UserModel');
+           $this->load->model('dto/OtHijaModel');
 
         }
 
         public function getAll(){
           try {
-            $user = new UserModel();
-            $datos = $user->get();
+            $otHija = new OtHijaModel();
+            $datos = $otHija->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
@@ -25,15 +25,15 @@
           }
         }
 
-        public function getAllEngineers(){
+        public function findByOrdenTrabajoHija($idOrdenTrabajoHija){
           try {
-            $db = new DB();
-            $sql="SELECT UPPER(CONCAT(n_name_user, ' ', n_last_name_user)) ingenieros
-                FROM user WHERE n_role_user = 'ingeniero'";
-            $data = $db->select($sql)->get();
+            $otHija = new OtHijaModel();
+            $datos = $otHija->where("id_orden_trabajo_hija","=",$idOrdenTrabajoHija)
+                          ->where("fecha_actual", "=", "DATE(DATE(NOW())-1)")
+                          ->first();
             $response = new Response(EMessages::SUCCESS);
-            $response->setData($data);
-            return $data;
+            $response->setData($datos);
+            return $response;
           } catch (DeplynException $ex) {
             return $ex;
           }

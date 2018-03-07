@@ -97,6 +97,7 @@ class LoadInformation extends CI_Controller {
             try {
                 $validator = new Validator();
                 $userModel = new Dao_user_model();
+                $otHijaModel = new Dao_ot_hija_model();
                 $inputFileType = PHPExcel_IOFactory::identify($file);
                 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
                 $objReader->setReadDataOnly(true);
@@ -123,7 +124,8 @@ class LoadInformation extends CI_Controller {
                 //Inicializamos un objeto de PHPExcel para escritura...
 //                $objPHPWriter = $this->createErrorsFileExcel();
                 $rowWriter = 1;
-                $x = 0;
+                $x1 = 0;
+                $x2 = 0;
                 while ($this->getValueCell($sheet, 'A' . $row) > 0 && ($row < $limit)) {
                     foreach ($engineers as $value) {
                         //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel
@@ -136,7 +138,18 @@ class LoadInformation extends CI_Controller {
                         similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[3], $pLastname3);
                         if ($pName > 70) {
                             if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
-                                $x++;
+                                //consultamos si la ot ya fue registrada en la DB el dia de ayer
+                                $otHija = $otHijaModel->findByOrdenTrabajoHija($this->getValueCell($sheet, 'AW' . $row));
+                                if ($otHija) {
+                                    //validamos que el estado de la ot del excel sea igual al estado del registro en DB
+                                    if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo) {
+                                        //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
+                                    } else {
+                                        //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
+                                    }
+                                } else {
+                                    //se inserta el registro de excel con el campo n_days en 0
+                                }
                             }
                         }
                     }
@@ -157,7 +170,8 @@ class LoadInformation extends CI_Controller {
                     "data" => $this->objs,
                     "errors_filename" => $filename,
                     "row" => ($row - $request->index),
-                    "seleccionados" => $x
+                    "ya existen" => $x1,
+                    "nuevas" => $x2
                 ]);
             } catch (DeplynException $ex) {
                 $response = new Response(EMessages::ERROR, "Error al procesar el archivo.");
