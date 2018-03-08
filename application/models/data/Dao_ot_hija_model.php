@@ -26,13 +26,13 @@ class Dao_ot_hija_model extends CI_Model {
 
     public function findByOrdenTrabajoHija($idOrdenTrabajoHija) {
         try {
-            $otHija = new OtHijaModel();
-            $datos = $otHija->where("id_orden_trabajo_hija", "=", $idOrdenTrabajoHija)
-                    ->where("fecha_actual", "=", "DATE(DATE(NOW())-1)")
-                    ->first();
+            $db = new DB();
+            $sql = "SELECT * FROM ot_hija  WHERE id_orden_trabajo_hija = $idOrdenTrabajoHija  AND fecha_actual = DATE(DATE(NOW())-1)";
+            $data = $db->select($sql)->first();
+//            echo $db->getSql();
             $response = new Response(EMessages::SUCCESS);
-            $response->setData($datos);
-            return $response;
+            $response->setData($data);
+            return $data;
         } catch (DeplynException $ex) {
             return $ex;
         }

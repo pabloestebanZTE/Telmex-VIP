@@ -143,18 +143,26 @@ class LoadInformation extends CI_Controller {
                             if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
                                 //consultamos si la ot ya fue registrada en la DB el dia de ayer
                                 $otHija = $otHijaModel->findByOrdenTrabajoHija($this->getValueCell($sheet, 'AW' . $row));
-                                if ($otHija) {
+                                print_r($otHija);
+                                if ($otHija->data) {
                                     //validamos que el estado de la ot del excel sea igual al estado del registro en DB
                                     if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo) {
                                         //consultamos el id del tipo de trabajo de la ot
                                         $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
+                                        print_r($otHija->data);
                                         //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
-                                        $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija->id_tipo, $otHija->ot_hija, $this->getValueCell($sheet, 'AV' . $row));
+                                        $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->ot_hija, $this->getValueCell($sheet, 'AV' . $row));
+                                        //si el estado de la ot del excel es mayor insertamos el registro del excel de lo contrario insertamos el registro que esta en la DB con el campo fecha_actual de hoy
+//                                        if (true) {
+//                                            
+//                                        }
                                     } else {
                                         //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
+                                        print_r('se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga');
                                     }
                                 } else {
                                     //se inserta el registro de excel con el campo n_days en 0
+                                    print_r('se inserta el registro de excel con el campo n_days en 0');
                                 }
                             }
                         }

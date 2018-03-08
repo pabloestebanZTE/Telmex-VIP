@@ -35,6 +35,7 @@ class Dao_tipo_ot_hija_model extends CI_Model {
                     END AS id_tipo
                     FROM tipo_ot_hija WHERE n_name_tipo = '$nombreTipo'";
             $data = $db->select($sql)->get();
+//            echo $db->getSql();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($data);
             return $data;

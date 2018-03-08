@@ -30,6 +30,7 @@ class Dao_estado_ot_model extends CI_Model {
             $sql = "SELECT * FROM estado_ot WHERE k_id_tipo = $idTipo AND 
                     (n_name_estado_ot = '$estadoNombre1' OR n_name_estado_ot = '$estadoNombre2')";
             $data = $db->select($sql)->get();
+//            echo $db->getSql();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($data);
             return $data;
