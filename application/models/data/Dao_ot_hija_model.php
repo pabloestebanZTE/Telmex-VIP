@@ -38,6 +38,18 @@ class Dao_ot_hija_model extends CI_Model {
         }
     }
 
+    public function insertOtHija($request) {
+        try {
+            $otHija = new OtHijaModel();
+            $datos = $otHija->insert($request->all());
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (DeplynException $ex) {
+            return $ex;
+        }
+    }
+
 }
 
 ?>

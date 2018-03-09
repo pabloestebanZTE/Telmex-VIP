@@ -15,21 +15,9 @@
                     0%
                 </div>
             </div>
-            <?php
-            if (Auth::isCoordinador()) {
-                $this->load->view('parts/principal/coordinador');
-            }
-            if (Auth::isDocumentador()) {
-                $this->load->view('parts/principal/documentador');
-            }
-            if (Auth::isIngeniero()) {
-                $this->load->view('parts/principal/ingeniero');
-            }
-            //::Evaluador
-            if (Auth::isEvaluador()) {
-                $this->load->view('parts/principal/evaluador', ["stadistics" => $stadistics]);
-            }
-            ?>
+            <div>
+                <script type='text/javascript' src='http://172.19.193.174/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 100%; height: 561px;'><object class='tableauViz' width='100%' height='561' style='display:none;'><param name='host_url' value='http%3A%2F%2F172.19.193.174%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='TVIPInstalaciones&#47;Dashboard1' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+            </div>
         </div>
         <!--footer Section -->
         <div class="for-full-back" id="footer">

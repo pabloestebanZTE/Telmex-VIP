@@ -158,11 +158,11 @@ class LoadInformation extends CI_Controller {
 //                                        }
                                     } else {
                                         //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
-                                        print_r('se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga');
+                                        $res = $this->insertRecord($sheet, $row);
                                     }
                                 } else {
                                     //se inserta el registro de excel con el campo n_days en 0
-                                    print_r('se inserta el registro de excel con el campo n_days en 0');
+                                    $res = $this->insertRecord($sheet, $row);
                                 }
                             }
                         }
@@ -206,6 +206,78 @@ class LoadInformation extends CI_Controller {
         $string = str_replace(array("\n", "\r", "\t"), '', $sheet->getCell($cell)->getValue());
         $string = str_replace(array("_x000D_"), "<br/>", $sheet->getCell($cell)->getValue());
         return $string;
+    }
+    
+    /**
+     * @param $sheet
+     * @param $cell
+     * getValueCell($sheet, $cell)
+     */
+    private function insertRecord(&$sheet, $row) {
+        $otHijaModel = new Dao_ot_hija_model();
+        $this->request->id_orden_trabajo_hija = $this->getValueCell($sheet, 'AW' . $row);
+        $this->request->k_id_estado_ot = null;
+        $this->request->id_cliente_onyx = $this->getValueCell($sheet, 'A' . $row);
+        $this->request->nombre_cliente = $this->getValueCell($sheet, 'B' . $row);
+        $this->request->grupo_objetivo = $this->getValueCell($sheet, 'C' . $row);
+        $this->request->segmento = $this->getValueCell($sheet, 'D' . $row);
+        $this->request->nivel_atencion = $this->getValueCell($sheet, 'E' . $row);
+        $this->request->ciudad = $this->getValueCell($sheet, 'F' . $row);
+        $this->request->departamento = $this->getValueCell($sheet, 'G' . $row);
+        $this->request->grupo = $this->getValueCell($sheet, 'H' . $row);
+        $this->request->consultor_comercial = $this->getValueCell($sheet, 'I' . $row);
+        $this->request->grupo2 = $this->getValueCell($sheet, 'J' . $row);
+        $this->request->consultor_postventa = $this->getValueCell($sheet, 'K' . $row);
+        $this->request->proy_instalacion = $this->getValueCell($sheet, 'L' . $row);
+        $this->request->ing_responsable = $this->getValueCell($sheet, 'M' . $row);
+        $this->request->id_enlace = $this->getValueCell($sheet, 'N' . $row);
+        $this->request->alias_enlace = $this->getValueCell($sheet, 'O' . $row);
+        $this->request->orden_trabajo = $this->getValueCell($sheet, 'P' . $row);
+        $this->request->nro_ot_onyx = $this->getValueCell($sheet, 'Q' . $row);
+        $this->request->servicio = $this->getValueCell($sheet, 'R' . $row);
+        $this->request->familia = $this->getValueCell($sheet, 'S' . $row);
+        $this->request->producto = $this->getValueCell($sheet, 'T' . $row);
+        $this->request->fecha_creacion = $this->getValueCell($sheet, 'U' . $row);
+        $this->request->tiempo_incidente = $this->getValueCell($sheet, 'V' . $row);
+        $this->request->estado_orden_trabajo = $this->getValueCell($sheet, 'W' . $row);
+        $this->request->tiempo_estado = $this->getValueCell($sheet, 'X' . $row);
+        $this->request->ano_ingreso_estado = $this->getValueCell($sheet, 'Y' . $row);
+        $this->request->mes_ngreso_estado = $this->getValueCell($sheet, 'Z' . $row);
+        $this->request->fecha_ingreso_estado = $this->getValueCell($sheet, 'AA' . $row);
+        $this->request->usuario_asignado = $this->getValueCell($sheet, 'AB' . $row);
+        $this->request->grupo_asignado = $this->getValueCell($sheet, 'AC' . $row);
+        $this->request->ingeniero_provisioning = $this->getValueCell($sheet, 'AD' . $row);
+        $this->request->cargo_arriendo = $this->getValueCell($sheet, 'AE' . $row);
+        $this->request->cargo_mensual = $this->getValueCell($sheet, 'AF' . $row);
+        $this->request->monto_moneda_local_arriendo = $this->getValueCell($sheet, 'AG' . $row);
+        $this->request->monto_moneda_local_cargo_mensual = $this->getValueCell($sheet, 'AH' . $row);
+        $this->request->cargo_obra_civil = $this->getValueCell($sheet, 'AI' . $row);
+        $this->request->descripcion = $this->getValueCell($sheet, 'AJ' . $row);
+        $this->request->direccion_origen = $this->getValueCell($sheet, 'AK' . $row);
+        $this->request->ciudad_incidente = $this->getValueCell($sheet, 'AL' . $row);
+        $this->request->direccion_destino = $this->getValueCell($sheet, 'AM' . $row);
+        $this->request->ciudad_incidente3 = $this->getValueCell($sheet, 'AN' . $row);
+        $this->request->fecha_compromiso = $this->getValueCell($sheet, 'AO' . $row);
+        $this->request->fecha_programacion = $this->getValueCell($sheet, 'AP' . $row);
+        $this->request->fecha_realizacion = $this->getValueCell($sheet, 'AQ' . $row);
+        $this->request->resolucion_1 = $this->getValueCell($sheet, 'AR' . $row);
+        $this->request->resolucion_2 = $this->getValueCell($sheet, 'AS' . $row);
+        $this->request->resolucion_3 = $this->getValueCell($sheet, 'AT' . $row);
+        $this->request->resolucion_4 = $this->getValueCell($sheet, 'AU' . $row);
+        $this->request->fecha_creacion_ot_hija = $this->getValueCell($sheet, 'AX' . $row);
+        $this->request->proveedor_ultima_milla = $this->getValueCell($sheet, 'AY' . $row);
+        $this->request->usuario_asignado4 = $this->getValueCell($sheet, 'BA' . $row);
+        $this->request->resolucion_15 = $this->getValueCell($sheet, 'BB' . $row);
+        $this->request->resolucion_26 = $this->getValueCell($sheet, 'BC' . $row);
+        $this->request->resolucion_37 = $this->getValueCell($sheet, 'BD' . $row);
+        $this->request->resolucion_48 = $this->getValueCell($sheet, 'BE' . $row);
+        $this->request->ot_hija = $this->getValueCell($sheet, 'AV' . $row);
+        $this->request->estado_orden_trabajo_hija = $this->getValueCell($sheet, 'AZ' . $row);
+        $this->request->fec_actualizacion_onyx_hija = $this->getValueCell($sheet, 'BF' . $row);
+        $this->request->fecha_actual = date('Y-m-d');
+        $this->request->n_days = 0;
+        
+        $response = $otHijaModel->insertOtHija($this->request);
     }
 
 }

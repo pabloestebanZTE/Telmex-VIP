@@ -282,8 +282,8 @@ class DB {
             $this->query = str_replace(":$key", (($value === NULL) ? "NULL" : "\"$value\""), $this->query);
             $sth->bindValue(":$key", $value);
         }
-        $audit = new Dao_audit_model();
-        $audit->audit($this->query, $obj, $this->table, $this->wheres);
+//        $audit = new Dao_audit_model();
+//        $audit->audit($this->query, $obj, $this->table, $this->wheres);
         $sth->execute();
         return $this->query;
     }
