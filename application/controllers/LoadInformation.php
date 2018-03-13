@@ -11,21 +11,27 @@ class LoadInformation extends CI_Controller {
     public function uploadfile() {
         $request = $this->request;
         $storage = new Storage();
-        //Se activa la asignación de un prefijo para nuestro archivo...
-        $storage->setPrefix(true);
-        //Seteamos las extenciones válidas...
-        $storage->setValidExtensions("xlsx", "xls");
-        //Subimos el archivo...
-        $storage->process($request);
-        //Obtenemos el log de los archivos subidos...
-        $files = $storage->getFiles();
-        $response = null;
-        if (count($files) > 0) {
-            $project = $files[0];
-            $response = new Response(EMessages::SUCCESS, "Se ha subido el archivo correctamente", $project);
+        if (file_exists(date('Y-m-d') . "_" . $request->filename)) {
+            //Se activa la asignación de un prefijo para nuestro archivo...
+            $storage->setPrefix(true);
+            //Seteamos las extenciones válidas...
+            $storage->setValidExtensions("xlsx", "xls");
+            //Subimos el archivo...
+            $storage->process($request);
+            //Obtenemos el log de los archivos subidos...
+            $files = $storage->getFiles();
+            $response = null;
+            if (count($files) > 0) {
+                $project = $files[0];
+                $response = new Response(EMessages::SUCCESS, "Se ha subido el archivo correctamente", $project);
+            } else {
+                $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el tamaño máximo permitido es de 100MB");
+            }
         } else {
-            $response = new Response(EMessages::ERROR_ACTION, "No se pudo subir el archivo.");
+            $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el archivo solo se pude subir una vez al dia y el archivo el dia de hoy ya fue subido.");
         }
+
+
         $this->json($response);
     }
 
@@ -100,7 +106,7 @@ class LoadInformation extends CI_Controller {
                 $otHijaModel = new Dao_ot_hija_model();
                 $estadoOtModel = new Dao_estado_ot_model();
                 $tipoOtHijaModel = new Dao_tipo_ot_hija_model();
-                
+
                 $inputFileType = PHPExcel_IOFactory::identify($file);
                 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
                 $objReader->setReadDataOnly(true);
@@ -143,26 +149,34 @@ class LoadInformation extends CI_Controller {
                             if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
                                 //consultamos si la ot ya fue registrada en la DB el dia de ayer
                                 $otHija = $otHijaModel->findByOrdenTrabajoHija($this->getValueCell($sheet, 'AW' . $row));
-                                print_r($otHija);
-                                if ($otHija->data) {
+                                //consultamos el id del tipo de trabajo de la ot
+                                $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
+                                //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
+                                $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->estado_orden_trabajo_hija, $this->getValueCell($sheet, 'AZ' . $row));
+                                //calculamos los dias que an pasado desde que se creo la ot asta el dia de hoy
+                                $datetime1 = new DateTime($this->getDatePHPExcel($sheet, 'AX' . $row));
+                                $datetime2 = new DateTime('now');
+                                $dias = $datetime1->diff($datetime2)->d;
+                                if ($otHija->estado_orden_trabajo_hija == 'Terminada' || $otHija->estado_orden_trabajo_hija == 'Cancelada' || $otHija->estado_orden_trabajo_hija == 'Cerrada' || $otHija->estado_orden_trabajo_hija == '3- Terminada') {
+                                    $dias = null;
+                                }
+
+                                if ($otHija) {
                                     //validamos que el estado de la ot del excel sea igual al estado del registro en DB
-                                    if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo) {
-                                        //consultamos el id del tipo de trabajo de la ot
-                                        $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
-                                        print_r($otHija->data);
-                                        //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
-                                        $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->ot_hija, $this->getValueCell($sheet, 'AV' . $row));
+                                    if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo_hija) {
                                         //si el estado de la ot del excel es mayor insertamos el registro del excel de lo contrario insertamos el registro que esta en la DB con el campo fecha_actual de hoy
-//                                        if (true) {
-//                                            
-//                                        }
+                                        if ($estadosOt[0]->i_orden > $estadosOt[1]->i_orden) {
+//                                            $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
+                                        } else {
+                                            $res = $this->insertRecord($sheet, $row, $estadosOt[1]->k_id_estado_ot, $dias);
+                                        }
                                     } else {
                                         //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
-                                        $res = $this->insertRecord($sheet, $row);
+                                        $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
                                     }
                                 } else {
                                     //se inserta el registro de excel con el campo n_days en 0
-                                    $res = $this->insertRecord($sheet, $row);
+                                    $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, 0);
                                 }
                             }
                         }
@@ -207,16 +221,28 @@ class LoadInformation extends CI_Controller {
         $string = str_replace(array("_x000D_"), "<br/>", $sheet->getCell($cell)->getValue());
         return $string;
     }
-    
+
+    private function getDatePHPExcel($sheet, $colum) {
+        $cell = $sheet->getCell($colum);
+        $validator = new Validator();
+        $date = DB::NULLED;
+        if ($validator->required("", $cell->getValue())) {
+            $date = $cell->getValue();
+            $date = date("Y-m-d H:i:s", PHPExcel_Shared_Date::ExcelToPHP($date));
+            $date = Hash::addHours($date, 5);
+        }
+        return $date;
+    }
+
     /**
      * @param $sheet
      * @param $cell
      * getValueCell($sheet, $cell)
      */
-    private function insertRecord(&$sheet, $row) {
+    private function insertRecord(&$sheet, $row, $k_id_estado_ot, $n_days) {
         $otHijaModel = new Dao_ot_hija_model();
         $this->request->id_orden_trabajo_hija = $this->getValueCell($sheet, 'AW' . $row);
-        $this->request->k_id_estado_ot = null;
+        $this->request->k_id_estado_ot = $k_id_estado_ot;
         $this->request->id_cliente_onyx = $this->getValueCell($sheet, 'A' . $row);
         $this->request->nombre_cliente = $this->getValueCell($sheet, 'B' . $row);
         $this->request->grupo_objetivo = $this->getValueCell($sheet, 'C' . $row);
@@ -275,8 +301,8 @@ class LoadInformation extends CI_Controller {
         $this->request->estado_orden_trabajo_hija = $this->getValueCell($sheet, 'AZ' . $row);
         $this->request->fec_actualizacion_onyx_hija = $this->getValueCell($sheet, 'BF' . $row);
         $this->request->fecha_actual = date('Y-m-d');
-        $this->request->n_days = 0;
-        
+        $this->request->n_days = $n_days;
+
         $response = $otHijaModel->insertOtHija($this->request);
     }
 

@@ -5,7 +5,7 @@ class OtHijaModel extends Model {
     protected $k_id_register;
     protected $id_orden_trabajo_hija;
     protected $k_id_estado_ot;
-    protected $attribute_id_cliente_onyx;
+    protected $id_cliente_onyx;
     protected $nombre_cliente;
     protected $grupo_objetivo;
     protected $segmento;
@@ -93,11 +93,11 @@ class OtHijaModel extends Model {
     public function getKIdEstadoOt() {
         return $this->k_id_estado_ot;
     }
-    public function setAttributeIdClienteOnyx($attribute_id_cliente_onyx) {
-        $this->attribute_id_cliente_onyx = $attribute_id_cliente_onyx;
+    public function setIdClienteOnyx($id_cliente_onyx) {
+        $this->id_cliente_onyx = $id_cliente_onyx;
     }
-    public function getAttributeIdClienteOnyx() {
-        return $this->attribute_id_cliente_onyx;
+    public function getIdClienteOnyx() {
+        return $this->id_cliente_onyx;
     }
     public function setNombreCliente($nombre_cliente) {
         $this->nombre_cliente = $nombre_cliente;

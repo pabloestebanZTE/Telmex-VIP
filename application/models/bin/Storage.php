@@ -61,7 +61,7 @@ class Storage {
         $file->name = utf8_decode($file->name);
         if ($this->prefix) {
             $prefix = uniqid(rand());
-            $file->name = $prefix . "_" . $file->name;
+            $file->name = date('Y-m-d') . "_" . $file->name;
         }
         $file->ext = $ext;
         $file->path = trim($this->directory, "/") . "/" . $file->name;

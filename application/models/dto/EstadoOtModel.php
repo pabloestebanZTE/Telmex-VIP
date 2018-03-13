@@ -5,6 +5,7 @@ class EstadoOtModel extends Model {
     protected $k_id_estado_ot;
     protected $k_id_tipo;
     protected $n_name_estado_ot;
+    protected $i_orden;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "estado_ot";
@@ -33,6 +34,12 @@ class EstadoOtModel extends Model {
     }
     public function getNNameEstadoOt() {
         return $this->n_name_estado_ot;
+    }
+    public function setIOrden($i_orden) {
+        $this->i_orden = $i_orden;
+    }
+    public function getIOrden() {
+        return $this->i_orden;
     }
 
 

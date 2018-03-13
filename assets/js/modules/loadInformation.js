@@ -43,7 +43,7 @@ var vista = {
                             $(input).parent('form').find('p').html('Procesando archivo, por favor no cierre la ventana.');
                         });
                     } else {
-                        swal("Error", "Lo sentimos, no se pudo subir el archivo, recuerde que el tamaño máximo permitido es de 100MB", "error");
+                        swal("Error", response.message, "error");
                     }
                 })
                 .errorExtension(function (file) {
