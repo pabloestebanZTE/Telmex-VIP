@@ -74,6 +74,13 @@ class User extends CI_Controller {
         }
         $this->load->view('loadInformation');
     }
+    
+    public function editOts() {
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
+        $this->load->view('editOts');
+    }
 
 }
 

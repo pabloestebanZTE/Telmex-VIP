@@ -11,7 +11,7 @@ class LoadInformation extends CI_Controller {
     public function uploadfile() {
         $request = $this->request;
         $storage = new Storage();
-        if (file_exists(date('Y-m-d') . "_" . $request->filename)) {
+        if (!file_exists(date('Y-m-d') . "_" . $request->filename)) {
             //Se activa la asignación de un prefijo para nuestro archivo...
             $storage->setPrefix(true);
             //Seteamos las extenciones válidas...
@@ -157,10 +157,9 @@ class LoadInformation extends CI_Controller {
                                 $datetime1 = new DateTime($this->getDatePHPExcel($sheet, 'AX' . $row));
                                 $datetime2 = new DateTime('now');
                                 $dias = $datetime1->diff($datetime2)->d;
-                                if ($otHija->estado_orden_trabajo_hija == 'Terminada' || $otHija->estado_orden_trabajo_hija == 'Cancelada' || $otHija->estado_orden_trabajo_hija == 'Cerrada' || $otHija->estado_orden_trabajo_hija == '3- Terminada') {
+                                if ($this->getValueCell($sheet, 'AZ' . $row) == 'Terminada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cancelada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cerrada' || $this->getValueCell($sheet, 'AZ' . $row) == '3- Terminada') {
                                     $dias = null;
                                 }
-
                                 if ($otHija) {
                                     //validamos que el estado de la ot del excel sea igual al estado del registro en DB
                                     if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo_hija) {
@@ -263,13 +262,13 @@ class LoadInformation extends CI_Controller {
         $this->request->servicio = $this->getValueCell($sheet, 'R' . $row);
         $this->request->familia = $this->getValueCell($sheet, 'S' . $row);
         $this->request->producto = $this->getValueCell($sheet, 'T' . $row);
-        $this->request->fecha_creacion = $this->getValueCell($sheet, 'U' . $row);
+        $this->request->fecha_creacion = $this->getDatePHPExcel($sheet, 'U' . $row);
         $this->request->tiempo_incidente = $this->getValueCell($sheet, 'V' . $row);
         $this->request->estado_orden_trabajo = $this->getValueCell($sheet, 'W' . $row);
         $this->request->tiempo_estado = $this->getValueCell($sheet, 'X' . $row);
         $this->request->ano_ingreso_estado = $this->getValueCell($sheet, 'Y' . $row);
         $this->request->mes_ngreso_estado = $this->getValueCell($sheet, 'Z' . $row);
-        $this->request->fecha_ingreso_estado = $this->getValueCell($sheet, 'AA' . $row);
+        $this->request->fecha_ingreso_estado = $this->getDatePHPExcel($sheet, 'AA' . $row);
         $this->request->usuario_asignado = $this->getValueCell($sheet, 'AB' . $row);
         $this->request->grupo_asignado = $this->getValueCell($sheet, 'AC' . $row);
         $this->request->ingeniero_provisioning = $this->getValueCell($sheet, 'AD' . $row);
@@ -283,14 +282,14 @@ class LoadInformation extends CI_Controller {
         $this->request->ciudad_incidente = $this->getValueCell($sheet, 'AL' . $row);
         $this->request->direccion_destino = $this->getValueCell($sheet, 'AM' . $row);
         $this->request->ciudad_incidente3 = $this->getValueCell($sheet, 'AN' . $row);
-        $this->request->fecha_compromiso = $this->getValueCell($sheet, 'AO' . $row);
-        $this->request->fecha_programacion = $this->getValueCell($sheet, 'AP' . $row);
-        $this->request->fecha_realizacion = $this->getValueCell($sheet, 'AQ' . $row);
+        $this->request->fecha_compromiso = $this->getDatePHPExcel($sheet, 'AO' . $row);
+        $this->request->fecha_programacion = $this->getDatePHPExcel($sheet, 'AP' . $row);
+        $this->request->fecha_realizacion = $this->getDatePHPExcel($sheet, 'AQ' . $row);
         $this->request->resolucion_1 = $this->getValueCell($sheet, 'AR' . $row);
         $this->request->resolucion_2 = $this->getValueCell($sheet, 'AS' . $row);
         $this->request->resolucion_3 = $this->getValueCell($sheet, 'AT' . $row);
         $this->request->resolucion_4 = $this->getValueCell($sheet, 'AU' . $row);
-        $this->request->fecha_creacion_ot_hija = $this->getValueCell($sheet, 'AX' . $row);
+        $this->request->fecha_creacion_ot_hija = $this->getDatePHPExcel($sheet, 'AX' . $row);
         $this->request->proveedor_ultima_milla = $this->getValueCell($sheet, 'AY' . $row);
         $this->request->usuario_asignado4 = $this->getValueCell($sheet, 'BA' . $row);
         $this->request->resolucion_15 = $this->getValueCell($sheet, 'BB' . $row);
@@ -299,7 +298,7 @@ class LoadInformation extends CI_Controller {
         $this->request->resolucion_48 = $this->getValueCell($sheet, 'BE' . $row);
         $this->request->ot_hija = $this->getValueCell($sheet, 'AV' . $row);
         $this->request->estado_orden_trabajo_hija = $this->getValueCell($sheet, 'AZ' . $row);
-        $this->request->fec_actualizacion_onyx_hija = $this->getValueCell($sheet, 'BF' . $row);
+        $this->request->fec_actualizacion_onyx_hija = $this->getDatePHPExcel($sheet, 'BF' . $row);
         $this->request->fecha_actual = date('Y-m-d');
         $this->request->n_days = $n_days;
 

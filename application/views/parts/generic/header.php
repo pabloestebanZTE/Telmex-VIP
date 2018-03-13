@@ -35,6 +35,8 @@
                     </li>
                     <li class="cam"><a href="<?= URL::to('User/loadInformation') ?>" style="height: 85px;">Cargar Información</a>
                     </li>
+                    <li class="cam"><a href="<?= URL::to('User/editOts') ?>" style="height: 85px;">Editar Ots</a>
+                    </li>
                     </li>
                     <li class="cam"><a href="<?= URL::to('User/logout') ?>" style="height: 85px;">Salir</a>
                     </li>

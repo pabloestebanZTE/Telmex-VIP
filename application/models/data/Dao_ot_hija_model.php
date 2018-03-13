@@ -49,6 +49,19 @@ class Dao_ot_hija_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function getOtsAssigned() {
+        try {
+            $db = new DB();
+            $usuario_session = Auth::user()->n_name_user . " " . Auth::user()->n_last_name_user;
+            $datos = $db->select("SELECT * FROM ot_hija WHERE fecha_actual = CURDATE() AND usuario_asignado like '%$usuario_session%' ORDER BY n_days DESC")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (DeplynException $ex) {
+            return $ex;
+        }
+    }
 
 }
 
