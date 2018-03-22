@@ -64,6 +64,7 @@ class OtHijaModel extends Model {
     protected $fec_actualizacion_onyx_hija;
     protected $fecha_actual;
     protected $n_days;
+    protected $observaciones;
     
     //Los campos que desea ocultar para que no se reflejen en la vista.    
     protected $table = "ot_hija";
@@ -446,6 +447,12 @@ class OtHijaModel extends Model {
     }
     public function getNDays() {
         return $this->n_days;
+    }
+    public function setObservaciones($observaciones) {
+        $this->observaciones = $observaciones;
+    }
+    public function getObservaciones() {
+        return $this->observaciones;
     }
 
 

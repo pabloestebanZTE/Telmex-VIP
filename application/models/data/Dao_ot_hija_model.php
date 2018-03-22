@@ -49,12 +49,34 @@ class Dao_ot_hija_model extends CI_Model {
             return $ex;
         }
     }
-    
+
     public function getOtsAssigned() {
         try {
             $db = new DB();
             $usuario_session = Auth::user()->n_name_user . " " . Auth::user()->n_last_name_user;
-            $datos = $db->select("SELECT * FROM ot_hija WHERE fecha_actual = CURDATE() AND usuario_asignado like '%$usuario_session%' ORDER BY n_days DESC")->get();
+            $datos = $db->select("SELECT oh.*, eo.k_id_tipo 
+                                FROM ot_hija oh
+                                INNER JOIN estado_ot eo ON oh.k_id_estado_ot = eo.k_id_estado_ot
+                                WHERE fecha_actual = CURDATE() 
+                                AND usuario_asignado like '%$usuario_session%' ORDER BY n_days DESC")->get();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (DeplynException $ex) {
+            return $ex;
+        }
+    }
+
+    public function updateStatusOt($request) {
+        try {
+            $otHija = new OtHijaModel();
+            $datos = $otHija->where("k_id_register", "=", $request->k_id_register)
+                    ->update([
+                                "observaciones" => $request->observaciones,
+                                "k_id_estado_ot" => $request->k_id_estado_ot,
+                                "estado_orden_trabajo_hija" => $request->estado_orden_trabajo_hija
+                            ]);
+//            echo $otHija->getSQL();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

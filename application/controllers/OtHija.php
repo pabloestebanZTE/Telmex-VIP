@@ -9,20 +9,29 @@ class OtHija extends CI_Controller {
         $this->load->model('data/Dao_ot_hija_model');
     }
 
-        public function getOtsAssigned() {
-        //Se comprueba si no hay sesión.
-        if (!Auth::check()) {
-            $this->json(new Response(EMessages::SESSION_INACTIVE));
-            return;
-        }
-
+    public function getOtsAssigned() {
         $response = null;
         if (Auth::check()) {
             $otHijaModel = new Dao_ot_hija_model();
             $res = $otHijaModel->getOtsAssigned();
             $this->json($res);
         } else {
-            $response = new Response(EMessages::NOT_ALLOWED);
+            $this->json(new Response(EMessages::SESSION_INACTIVE));
+            return;
         }
     }
+    
+    public function updateStatusOt() {
+        //Se comprueba si no hay sesión.
+        $response = null;
+        if (Auth::check()) {
+            $otHijaModel = new Dao_ot_hija_model();
+            $res = $otHijaModel->updateStatusOt($this->request);
+            $this->json($res);
+        } else {
+            $this->json(new Response(EMessages::SESSION_INACTIVE));
+            return;
+        }
+    }
+
 }

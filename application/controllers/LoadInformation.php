@@ -11,7 +11,7 @@ class LoadInformation extends CI_Controller {
     public function uploadfile() {
         $request = $this->request;
         $storage = new Storage();
-        if (!file_exists(date('Y-m-d') . "_" . $request->filename)) {
+//        if (!file_exists(date('Y-m-d') . "_" . $request->filename)) {
             //Se activa la asignación de un prefijo para nuestro archivo...
             $storage->setPrefix(true);
             //Seteamos las extenciones válidas...
@@ -27,9 +27,9 @@ class LoadInformation extends CI_Controller {
             } else {
                 $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el tamaño máximo permitido es de 100MB");
             }
-        } else {
-            $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el archivo solo se pude subir una vez al dia y el archivo el dia de hoy ya fue subido.");
-        }
+//        } else {
+//            $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el archivo solo se pude subir una vez al dia y el archivo el dia de hoy ya fue subido.");
+//        }
 
 
         $this->json($response);
