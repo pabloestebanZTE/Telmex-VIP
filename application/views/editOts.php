@@ -37,7 +37,7 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <form class="well form-horizontal" id="formModal" action="<?= URL::to("OtHija/updateStatusOt") ?>" method="post" novalidate="novalidate">
+                                <form class="well form-horizontal" id="formModal" action="OtHija/updateStatusOt" method="post" novalidate="novalidate">
                                     <input name="k_id_register" id="k_id_register" type="hidden">
                                     <input name="estado_orden_trabajo_hija" id="estado_orden_trabajo_hija" type="hidden">
                                     <fieldset>
@@ -707,7 +707,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" id="mbtnCerrarModal" data-dismiss="modal"><i class='glyphicon glyphicon-remove'></i>&nbsp;Cancelar</button>
-                            <button type="submit" class="btn btn-info" form="formModal" id="btnUpdOt"><i class='glyphicon glyphicon-save'></i>&nbsp;Actualizar</button>
+                            <button type="button" class="btn btn-info" id="btnUpdOt"><i class='glyphicon glyphicon-save'></i>&nbsp;Actualizar</button>
                         </div>
                     </div>
                 </div>
