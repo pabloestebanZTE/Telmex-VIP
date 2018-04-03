@@ -59,9 +59,11 @@ class LoadInformation extends CI_Controller {
 
                 //Obtenemos la página.
                 $sheet = $objPHPExcel->getSheet(0);
+//                print_r($sheet);
                 $row = 1;
                 $validator = new Validator();
-                while ($validator->required("", $this->getValueCell($sheet, "A" . $row))) {
+//                print_r($sheet);
+                while ($validator->required("", $this->getValueCell($sheet, "AW" . $row))) {
                     $row++;
                 }
                 $highestRowSheet1 = $row;
@@ -135,7 +137,7 @@ class LoadInformation extends CI_Controller {
                 $rowWriter = 1;
                 $x1 = 0;
                 $x2 = 0;
-                while ($this->getValueCell($sheet, 'A' . $row) > 0 && ($row < $limit)) {
+                while ($this->getValueCell($sheet, 'AW' . $row) > 0 && ($row < $limit)) {
                     foreach ($engineers as $value) {
                         //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel
                         similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[0], $pName);
@@ -161,11 +163,12 @@ class LoadInformation extends CI_Controller {
                                     $dias = null;
                                 }
                                 if ($otHija) {
+                                    $x1++;
                                     //validamos que el estado de la ot del excel sea igual al estado del registro en DB
                                     if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo_hija) {
                                         //si el estado de la ot del excel es mayor insertamos el registro del excel de lo contrario insertamos el registro que esta en la DB con el campo fecha_actual de hoy
                                         if ($estadosOt[0]->i_orden > $estadosOt[1]->i_orden) {
-//                                            $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
+                                            $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
                                         } else {
                                             $res = $this->insertRecord($sheet, $row, $estadosOt[1]->k_id_estado_ot, $dias);
                                         }
@@ -176,6 +179,7 @@ class LoadInformation extends CI_Controller {
                                 } else {
                                     //se inserta el registro de excel con el campo n_days en 0
                                     $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, 0);
+                                    $x2++;
                                 }
                             }
                         }

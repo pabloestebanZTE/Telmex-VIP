@@ -84,6 +84,13 @@ class User extends CI_Controller {
         $answer['estadosOts'] = json_encode($estadosOt);
         $this->load->view('editOts', $answer);
     }
+    
+    public function markings() {
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
+        $this->load->view('markings');
+    }
 
 }
 
