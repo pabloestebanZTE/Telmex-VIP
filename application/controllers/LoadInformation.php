@@ -11,27 +11,21 @@ class LoadInformation extends CI_Controller {
     public function uploadfile() {
         $request = $this->request;
         $storage = new Storage();
-//        if (!file_exists(date('Y-m-d') . "_" . $request->filename)) {
-            //Se activa la asignación de un prefijo para nuestro archivo...
-            $storage->setPrefix(true);
-            //Seteamos las extenciones válidas...
-            $storage->setValidExtensions("xlsx", "xls");
-            //Subimos el archivo...
-            $storage->process($request);
-            //Obtenemos el log de los archivos subidos...
-            $files = $storage->getFiles();
-            $response = null;
-            if (count($files) > 0) {
-                $project = $files[0];
-                $response = new Response(EMessages::SUCCESS, "Se ha subido el archivo correctamente", $project);
-            } else {
-                $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el tamaño máximo permitido es de 100MB");
-            }
-//        } else {
-//            $response = new Response(EMessages::ERROR_ACTION, "Lo sentimos, no se pudo subir el archivo, recuerde que el archivo solo se pude subir una vez al dia y el archivo el dia de hoy ya fue subido.");
-//        }
-
-
+        //Se activa la asignación de un prefijo para nuestro archivo...
+        $storage->setPrefix(true);
+        //Seteamos las extenciones válidas...
+        $storage->setValidExtensions("xlsx", "xls");
+        //Subimos el archivo...
+        $storage->process($request);
+        //Obtenemos el log de los archivos subidos...
+        $files = $storage->getFiles();
+        $response = null;
+        if (count($files) > 0) {
+            $project = $files[0];
+            $response = new Response(EMessages::SUCCESS, "Se ha subido el archivo correctamente", $project);
+        } else {
+            $response = new Response(EMessages::ERROR_ACTION, "No se pudo subir el archivo.");
+        }
         $this->json($response);
     }
 
@@ -55,9 +49,10 @@ class LoadInformation extends CI_Controller {
                 $inputFileType = PHPExcel_IOFactory::identify($file);
                 $objReader = PHPExcel_IOFactory::createReader($inputFileType);
                 $objReader->setReadDataOnly(true);
-                $objPHPExcel = $objReader->load($file);
 
-                //Obtenemos la página.
+                $objPHPExcel = $objReader->load($file);
+//
+//                //Obtenemos la página.
                 $sheet = $objPHPExcel->getSheet(0);
 //                print_r($sheet);
                 $row = 1;
@@ -137,6 +132,7 @@ class LoadInformation extends CI_Controller {
                 $rowWriter = 1;
                 $x1 = 0;
                 $x2 = 0;
+//                print_r($this->getValueCell($sheet, 'AW' . $row) > 0);
                 while ($this->getValueCell($sheet, 'AW' . $row) > 0 && ($row < $limit)) {
                     foreach ($engineers as $value) {
                         //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel

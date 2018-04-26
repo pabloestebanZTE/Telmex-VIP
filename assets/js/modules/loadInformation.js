@@ -53,7 +53,7 @@ var vista = {
     },
     limit: 100,
     indexTemp: 0,
-    index: 2,
+    index: 4,
     linesFile: -1,
     actualProcess: null,
     sleepTime: 2000,
