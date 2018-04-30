@@ -79,7 +79,17 @@ class User extends CI_Controller {
         if (!Auth::check()) {
             Redirect::to(URL::base());
         }
-        $this->load->view('editOts');
+        $estadoOtModel = new Dao_estado_ot_model();
+        $estadosOt = $estadoOtModel->getAll();
+        $answer['estadosOts'] = json_encode($estadosOt);
+        $this->load->view('editOts', $answer);
+    }
+    
+    public function markings() {
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
+        $this->load->view('markings');
     }
 
 }

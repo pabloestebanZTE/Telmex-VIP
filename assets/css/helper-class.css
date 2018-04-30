@@ -135,6 +135,14 @@ and open the template in the editor.
 .m-t-50{
     margin-top: 50px;
 }
+.btnMarcaciones{
+    width: 125px;
+    margin-left: 62px;
+}
+
+.tdMarcaciones{
+    width: 130px;
+}
 /*MARGIN*/
 
 /*PADDING*/

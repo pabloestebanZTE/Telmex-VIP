@@ -70,7 +70,9 @@ class Storage {
 
     private function processFiles($file_post, $request) {
         $files = array();
-        $file_count = count($file_post['name']);
+//        print_r(count($file_post['name']));
+//        $file_count = count($file_post['name']);
+        $file_count = 1;
         $file_keys = array_keys($file_post);
         for ($i = 0; $i < $file_count; $i++) {
             $file = [];

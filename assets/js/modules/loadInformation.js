@@ -28,7 +28,7 @@ var vista = {
         vista.uploadFile(input);
     },
     uploadFile: function (input, button) {
-        app.uploadFile("LoadInformation/uploadFile", input, ["xlsx"])
+        app.uploadFile("LoadInformation/uploadFile", input, ["xlsx"]["xls"])
                 .progress(function (progress) {
                     //Plajear barrita de progreso...
                     button.html('<span class="fa fa-fw fa-spin fa-refresh"></span> Subiendo (' + progress + ')...');
@@ -53,7 +53,7 @@ var vista = {
     },
     limit: 100,
     indexTemp: 0,
-    index: 2,
+    index: 4,
     linesFile: -1,
     actualProcess: null,
     sleepTime: 2000,
