@@ -34,44 +34,42 @@ class LoadInformation extends CI_Controller {
         $request = $this->request;
         $file = $request->file;
         $response = new Response(EMessages::SUCCESS);
-        if (file_exists($file)) {
-            try {
-                //Se procesa el archivo de comentarios...
-                set_time_limit(-1);
-                ini_set('memory_limit', '1500M');
-                require_once APPPATH . 'models/bin/PHPExcel-1.8.1/Classes/PHPExcel/Settings.php';
-                $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp;
-                $cacheSettings = array(' memoryCacheSize ' => '15MB');
-                PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
-                PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
-                $this->load->model('bin/PHPExcel-1.8.1/Classes/PHPExcel');
+        try {
+            //Se procesa el archivo de comentarios...
+            set_time_limit(-1);
+            ini_set('memory_limit', '1500M');
+            require_once APPPATH . 'models/bin/PHPExcel-1.8.1/Classes/PHPExcel/Settings.php';
+            $cacheMethod = PHPExcel_CachedObjectStorageFactory:: cache_to_phpTemp;
+            $cacheSettings = array(' memoryCacheSize ' => '15MB');
+            PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
+            PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);
+            $this->load->model('bin/PHPExcel-1.8.1/Classes/PHPExcel');
 
-                $inputFileType = PHPExcel_IOFactory::identify($file);
-                $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-                $objReader->setReadDataOnly(true);
+            $inputFileType = PHPExcel_IOFactory::identify($file);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objReader->setReadDataOnly(true);
 
-                $objPHPExcel = $objReader->load($file);
+            $objPHPExcel = $objReader->load($file);
 //
 //                //Obtenemos la página.
-                $sheet = $objPHPExcel->getSheet(0);
+            $sheet = $objPHPExcel->getSheet(0);
 //                print_r($sheet);
-                $row = 1;
-                $validator = new Validator();
-//                print_r($sheet);
-                while ($validator->required("", $this->getValueCell($sheet, "AW" . $row))) {
-                    $row++;
-                }
-                $highestRowSheet1 = $row;
-
-                $lines = [
-                    "sheet1" => $highestRowSheet1
-                ];
-
-                $response->setData($lines);
-                $this->json($response);
-            } catch (DeplynException $ex) {
-                $this->json($ex);
+            $row = 1;
+            $validator = new Validator();
+//            print_r($this->getValueCell($sheet, "AW" . $row));
+            while ($validator->required("", $this->getValueCell($sheet, "AW" . $row))) {
+                $row++;
             }
+            $highestRowSheet1 = $row;
+
+            $lines = [
+                "sheet1" => $highestRowSheet1
+            ];
+
+            $response->setData($lines);
+            $this->json($response);
+        } catch (DeplynException $ex) {
+            $this->json($ex);
         }
     }
 
@@ -126,7 +124,8 @@ class LoadInformation extends CI_Controller {
                 $inconsistenciesFull = [];
                 $cellInconsistencies = [];
                 $engineers = $userModel->getAllEngineers();
-
+                $tipoOtHijaName = $tipoOtHijaModel->getAllNameType();
+//                print_r($tipoOtHija[0]->n_name_tipo);
                 //Inicializamos un objeto de PHPExcel para escritura...
 //                $objPHPWriter = $this->createErrorsFileExcel();
                 $rowWriter = 1;
@@ -134,52 +133,72 @@ class LoadInformation extends CI_Controller {
                 $x2 = 0;
 //                print_r($this->getValueCell($sheet, 'AW' . $row) > 0);
                 while ($this->getValueCell($sheet, 'AW' . $row) > 0 && ($row < $limit)) {
-                    foreach ($engineers as $value) {
-                        //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel
-                        similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[0], $pName);
-                        //porcentaje de similar entre primer apellido de db y segunda palabra (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[1], $pLastname1);
-                        //porcentaje de similar entre primer apellido de db y tercera (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[2], $pLastname2);
-                        //porcentaje de similar entre primer apellido de db y cuarta (apellido) del excel
-                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[3], $pLastname3);
-                        if ($pName > 70) {
-                            if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
-                                //consultamos si la ot ya fue registrada en la DB el dia de ayer
-                                $otHija = $otHijaModel->findByOrdenTrabajoHija($this->getValueCell($sheet, 'AW' . $row));
-                                //consultamos el id del tipo de trabajo de la ot
-                                $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
-                                //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
-                                $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->estado_orden_trabajo_hija, $this->getValueCell($sheet, 'AZ' . $row));
-                                //calculamos los dias que an pasado desde que se creo la ot asta el dia de hoy
-                                $datetime1 = new DateTime($this->getDatePHPExcel($sheet, 'AX' . $row));
-                                $datetime2 = new DateTime('now');
-                                $dias = $datetime1->diff($datetime2)->d;
-                                if ($this->getValueCell($sheet, 'AZ' . $row) == 'Terminada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cancelada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cerrada' || $this->getValueCell($sheet, 'AZ' . $row) == '3- Terminada') {
-                                    $dias = null;
-                                }
-                                if ($otHija) {
-                                    $x1++;
-                                    //validamos que el estado de la ot del excel sea igual al estado del registro en DB
-                                    if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo_hija) {
-                                        //si el estado de la ot del excel es mayor insertamos el registro del excel de lo contrario insertamos el registro que esta en la DB con el campo fecha_actual de hoy
-                                        if ($estadosOt[0]->i_orden > $estadosOt[1]->i_orden) {
-                                            $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
-                                        } else {
-                                            $res = $this->insertRecord($sheet, $row, $estadosOt[1]->k_id_estado_ot, $dias);
-                                        }
-                                    } else {
-                                        //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
-                                        $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
-                                    }
-                                } else {
-                                    //se inserta el registro de excel con el campo n_days en 0
-                                    $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, 0);
-                                    $x2++;
-                                }
-                            }
+//                    foreach ($engineers as $value) {
+//                        //porcentaje de similar entre primer nombre de db y primera palabra (nombre) del excel
+//                        similar_text(explode(" ", $value->ingenieros)[0], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[0], $pName);
+//                        //porcentaje de similar entre primer apellido de db y segunda palabra (apellido) del excel
+//                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[1], $pLastname1);
+//                        //porcentaje de similar entre primer apellido de db y tercera (apellido) del excel
+//                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[2], $pLastname2);
+//                        //porcentaje de similar entre primer apellido de db y cuarta (apellido) del excel
+//                        similar_text(explode(" ", $value->ingenieros)[1], explode(" ", $this->getValueCell($sheet, 'AB' . $row))[3], $pLastname3);
+//                        if ($pName > 70) {
+//                            if ($pLastname1 > 69 || $pLastname2 > 69 || $pLastname3 > 69) {
+                    //consultamos si la ot ya fue registrada en la DB el dia de ayer
+                    $otHija = $otHijaModel->findByOrdenTrabajoHija($this->getValueCell($sheet, 'AW' . $row));
+                    //consultamos el id del tipo de trabajo de la ot
+                    $tipoOtHija = $tipoOtHijaModel->getIdTypeByNameType($this->getValueCell($sheet, 'AV' . $row));
+//                    print_r($tipoOtHija);
+                    if ($tipoOtHija[0]->id_tipo == [] || $tipoOtHija[0]->id_tipo == "" || $tipoOtHija[0]->id_tipo == null) {
+//                        echo 'entre';
+                        $maxTipoOtHija = 0;
+                        $cont = 0;
+                        $pTipoOtHija = 0;
+                        $pTipoOtHija = 0;
+                        
+                        while ($pTipoOtHija < 85 && $maxTipoOtHija < 43){
+                            similar_text($this->getValueCell($sheet, 'AV' . $row),$tipoOtHijaName[$cont]->n_name_tipo , $pTipoOtHija);
+                            
+                            $tipoOtHija[0]->id_tipo = $tipoOtHijaName[$cont]->k_id_tipo;
+                            $maxTipoOtHija++;
+                            
+                            $cont++;                      
+                            
                         }
+                    
                     }
+                    //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
+                    $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->estado_orden_trabajo_hija, $this->getValueCell($sheet, 'AZ' . $row));
+//                    print_r($estadosOt);
+                    //calculamos los dias que an pasado desde que se creo la ot asta el dia de hoy
+                    $datetime1 = new DateTime($this->getDatePHPExcel($sheet, 'AX' . $row));
+                    $datetime2 = new DateTime('now');
+                    $dias = $datetime1->diff($datetime2)->d;
+                    if ($this->getValueCell($sheet, 'AZ' . $row) == 'Terminada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cancelada' || $this->getValueCell($sheet, 'AZ' . $row) == 'Cerrada' || $this->getValueCell($sheet, 'AZ' . $row) == '3- Terminada') {
+                        $dias = null;
+                    }
+                    if ($otHija) {
+                        $x1++;
+                        //validamos que el estado de la ot del excel sea igual al estado del registro en DB
+                        if ($this->getValueCell($sheet, 'AZ' . $row) != $otHija->estado_orden_trabajo_hija) {
+                            //si el estado de la ot del excel es mayor insertamos el registro del excel de lo contrario insertamos el registro que esta en la DB con el campo fecha_actual de hoy
+                            if ($estadosOt[0]->i_orden > $estadosOt[1]->i_orden) {
+                                $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
+                            } else {
+                                $res = $this->insertRecord($sheet, $row, $estadosOt[1]->k_id_estado_ot, $dias);
+                            }
+                        } else {
+                            //se inserta el registro de excel con el campo n_days sumandole 1 a lo que contenga
+                            $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, $dias);
+                        }
+                    } else {
+                        //se inserta el registro de excel con el campo n_days en 0
+                        $res = $this->insertRecord($sheet, $row, $estadosOt[0]->k_id_estado_ot, 0);
+                        $x2++;
+                    }
+//                            }
+//                        }
+//                    }
                     $row++;
                 }
 

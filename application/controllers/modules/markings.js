@@ -35,9 +35,6 @@ $(function () {
             var prefijoActual = '';
             var x = 0;
             var difPrefijo = '_';
-            
-            
-            // ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             $("input[name='PrincipalCode[]']").each(function () {
                 if (prefijoActual == $(this).val().replace(/[^A-Z a-z]/g, '')) {
                     principalCodes += (x === 0) ? $(this).val() + ',' : $(this).val().replace(/[^1-9]/g, '') + ',';
@@ -49,12 +46,6 @@ $(function () {
 
                 prefijoActual = $(this).val().replace(/[^A-Z a-z]/g, '');
             });
-            
-            
-            
-            
-            
-            
             $("input[name='BackupCode[]']").each(function () {
                 BackupCodes += $(this).val() + ',';
             });

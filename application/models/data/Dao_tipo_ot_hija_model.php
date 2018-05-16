@@ -43,6 +43,21 @@ class Dao_tipo_ot_hija_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function getAllNameType() {
+        try {
+            $db = new DB();
+            $sql = "SELECT n_name_tipo, k_id_tipo
+                    FROM tipo_ot_hija";
+            $data = $db->select($sql)->get();
+//            echo $db->getSql();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($data);
+            return $data;
+        } catch (DeplynException $ex) {
+            return $ex;
+        }
+    }
 
 }
 
