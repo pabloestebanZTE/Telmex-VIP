@@ -54,7 +54,6 @@ $(function () {
             
             
             
-            
             $("input[name='BackupCode[]']").each(function () {
                 BackupCodes += $(this).val() + ',';
             });
