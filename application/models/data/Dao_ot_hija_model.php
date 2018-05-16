@@ -53,12 +53,16 @@ class Dao_ot_hija_model extends CI_Model {
     public function getOtsAssigned() {
         try {
             $db = new DB();
+            $condicion = "";
             $usuario_session = Auth::user()->n_name_user . " " . Auth::user()->n_last_name_user;
+            if (Auth::user()->n_role_user == 'ingeniero') {
+                $condicion = "AND usuario_asignado like '%$usuario_session%'";
+            }
             $datos = $db->select("SELECT oh.*, eo.k_id_tipo 
                                 FROM ot_hija oh
                                 INNER JOIN estado_ot eo ON oh.k_id_estado_ot = eo.k_id_estado_ot
                                 WHERE fecha_actual = CURDATE() 
-                                AND usuario_asignado like '%$usuario_session%' ORDER BY n_days DESC")->get();
+                                $condicion ORDER BY n_days DESC")->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;

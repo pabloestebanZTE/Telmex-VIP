@@ -74,7 +74,7 @@ class User extends CI_Controller {
         }
         $this->load->view('loadInformation');
     }
-    
+
     public function editOts() {
         if (!Auth::check()) {
             Redirect::to(URL::base());
@@ -84,12 +84,41 @@ class User extends CI_Controller {
         $answer['estadosOts'] = json_encode($estadosOt);
         $this->load->view('editOts', $answer);
     }
-    
+
     public function markings() {
         if (!Auth::check()) {
             Redirect::to(URL::base());
         }
         $this->load->view('markings');
+    }
+
+    public function prueba() {
+        $array = array(0,1,3,5,4,6,8,9,10,7,2,13,11);
+
+        for ($i = 1; $i < count($array); $i++) {
+            for ($j = 0; $j < count($array) - $i; $j++) {
+                if ($array[$j] > $array[$j + 1]) {
+                    $k = $array[$j + 1];
+                    $array[$j + 1] = $array[$j];
+                    $array[$j] = $k;
+                }
+            }
+        }
+
+        if (end($array) < 0) {
+            echo 1;
+        } else {
+            for ($k = 1; $k <= end($array); $k++) {
+//                echo $k;
+                if (!in_array($k, $array)) {
+                    echo $k;
+                    break;
+                } elseif (end($array) == $k) {
+                    echo end($array) +1;
+                    break;
+                }
+            }
+        }
     }
 
 }
