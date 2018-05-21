@@ -35,10 +35,19 @@ $(function () {
             var prefijoActual = '';
             var x = 0;
             var difPrefijo = '_';
-            
-            
+
+
+
+
+            var prefijos = [];
+
             // ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            $("input[name='PrincipalCode[]']").each(function () {
+            $("input[name='PrincipalCode[]']").each(function (i, item) {
+                // console.log(i);
+                // prefijos[item.value.substr(0,3)] += "," + item.value;
+                prefijos[i] =  item.value;     
+
+
                 if (prefijoActual == $(this).val().replace(/[^A-Z a-z]/g, '')) {
                     principalCodes += (x === 0) ? $(this).val() + ',' : $(this).val().replace(/[^1-9]/g, '') + ',';
                 } else {
@@ -48,9 +57,24 @@ $(function () {
                 }
 
                 prefijoActual = $(this).val().replace(/[^A-Z a-z]/g, '');
+
             });
             
-            
+            $.post(baseurl + "/user/getPrefijo",
+              {
+                pref : prefijos
+              },
+              function (data) {
+                
+
+          });
+
+
+
+            console.log(baseurl);
+
+
+            console.log(prefijos);
             
             
             

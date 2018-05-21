@@ -148,6 +148,7 @@
         </div>     
         <?php $this->load->view('parts/generic/scripts'); ?>
         <!-- CUSTOM SCRIPT   -->
+        <script type="text/javascript"> var baseurl = "<?= URL::base() ?>";</script>
         <script scr="<?= URL::to("assets/plugins/sweetalert-master/dist/sweetalert.min.js") ?>" ></script>
         <script type="text/javascript" src="<?= URL::to("assets/js/modules/markings.js") ?>"></script>
     </body>

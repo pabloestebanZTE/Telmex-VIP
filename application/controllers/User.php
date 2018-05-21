@@ -92,35 +92,74 @@ class User extends CI_Controller {
         $this->load->view('markings');
     }
 
-    public function prueba() {
-        $array = array(0,1,3,5,4,6,8,9,10,7,2,13,11);
+    //arma la cadena de trexto de los prefijos
+    public function getPrefijo(){
 
-        for ($i = 1; $i < count($array); $i++) {
-            for ($j = 0; $j < count($array) - $i; $j++) {
-                if ($array[$j] > $array[$j + 1]) {
-                    $k = $array[$j + 1];
-                    $array[$j + 1] = $array[$j];
-                    $array[$j] = $k;
-                }
-            }
+        $prefijos = $this->input->post('pref');
+
+        for ($i=0; $i < count($prefijos); $i++) { 
+            $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 5,2);  
         }
 
-        if (end($array) < 0) {
-            echo 1;
-        } else {
-            for ($k = 1; $k <= end($array); $k++) {
-//                echo $k;
-                if (!in_array($k, $array)) {
-                    echo $k;
-                    break;
-                } elseif (end($array) == $k) {
-                    echo end($array) +1;
-                    break;
-                }
-            }
-        }
+
+
+        print_r($pref);
+  /************************************************************************************************************/
+        $res = "";
+        foreach ($pref as $i => $valores) {
+            $res .= "$i";      
+        }  
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /************************************************************************************************************/
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
 
 }
 
 ?>
+
