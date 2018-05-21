@@ -1,5 +1,6 @@
 $(function () {
     var ini = {
+        
         countPrincipal: 1,
         countBackup: 1,
         countPuntoCentral: 1,
@@ -66,18 +67,8 @@ $(function () {
               },
               function (data) {
                 
+                principalCodes = data; 
 
-          });
-
-
-
-            console.log(baseurl);
-
-
-            console.log(prefijos);
-            
-            
-            
             $("input[name='BackupCode[]']").each(function () {
                 BackupCodes += $(this).val() + ',';
             });
@@ -94,7 +85,7 @@ $(function () {
             var externoBackup = prefijo + nombreEmpresa + separador + "(TE)" + separador + "OT" + separador + otpCode.slice(0, -1) + separador + "BACKUP" + principalCodes.slice(0, -1) + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1);
             var desconexion = prefijo + nombreEmpresa + separador + "(DTSC)" + separador + "OT" + separador + otpCode.slice(0, -1) + principalCodes.slice(0, -1);
             var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + PuntoCentralCode.slice(0, -1);
-            var difPrefijo = nombreEmpresa + difPrefijo.slice(0, -1);
+            var difPrefijo = nombreEmpresa + difPrefijo;
             $("#" + capa + "_normal").val(normal);
             $("#" + capa + "_ppal").val(ppal);
             $("#" + capa + "_backup").val(backup);
@@ -103,6 +94,8 @@ $(function () {
             $("#" + capa + "_desconexion").val(desconexion);
             $("#" + capa + "_puntoCentral").val(puntoCentral);
             $("#" + capa + "_difPrefijo").val(difPrefijo);
+            console.log(principalCodes);
+          });
         },
         showLongNameMessage: function () {
 //            var cantLetras = $('#nombre_empresa').val().length;
