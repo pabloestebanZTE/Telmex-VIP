@@ -46,6 +46,5 @@
             </div>
         </div>
     </nav>
-</header><br><br><br><br>
-<br>
+</header>
 <!--End Navigation -->
