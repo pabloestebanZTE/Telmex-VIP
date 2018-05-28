@@ -26,7 +26,7 @@
                                 <button type="button" id="btnPrincipal" class="btn btn-primary col-sm-2 btnMarcaciones">Principal</button>
                                 <div id="groupPrincipal">
                                     <div class="col-sm-8 seccionPrincipal" style="display: none;">
-                                        <input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal">
+                                        <input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="7">
                                     </div>
                                     <div class="col-sm-2 seccionPrincipal" style="display: none;">
                                         <button type="button" class="btn btn-success addPrincipalCode">+</button>
@@ -38,7 +38,7 @@
                                 <button type="button" id="btnBackup" class="btn btn-primary col-sm-2 btnMarcaciones">Backup</button>
                                 <div id="groupBackup">
                                     <div class="col-sm-8 seccionBackup" style="display: none;">
-                                        <input type="text" class="form-control" name="BackupCode[]" placeholder="Backup">
+                                        <input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="7">
                                     </div>
                                     <div class="col-sm-2 seccionBackup" style="display: none;">
                                         <button type="button" class="btn btn-success addBackupCode">+</button>
@@ -50,7 +50,7 @@
                                 <button type="button" id="btnPuntoCentral" class="btn btn-primary col-sm-2 btnMarcaciones">Punto Central</button>
                                 <div id="groupPuntoCentral">
                                     <div class="col-sm-8 seccionPuntoCentral" style="display: none;">
-                                        <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central">
+                                        <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7">
                                     </div>
                                     <div class="col-sm-2 seccionPuntoCentral" style="display: none;">
                                         <button type="button" class="btn btn-success addPuntoCentralCode">+</button>
@@ -62,7 +62,7 @@
                                 <button type="button" id="btnOtp" class="btn btn-primary col-sm-2 btnMarcaciones">OTP</button>
                                 <div id="groupOtp">
                                     <div class="col-sm-8 seccionOtp" style="display: none;">
-                                        <input type="text" class="form-control" name="otpCode[]" placeholder="OTP">
+                                        <input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="7">
                                     </div>
                                     <div class="col-sm-2 seccionOtp" style="display: none;">
                                         <button type="button" class="btn btn-success addOtpCode">+</button>
@@ -118,12 +118,12 @@
                                     <td><input type="text" class="form-control" id="alcatel_externoBackup"></td>
                                     <td><input type="text" class="form-control" id="interfaz_externoBackup"></td>
                                 </tr>
-                                <tr>
+<!--                                <tr>
                                     <td>DESCONEXION TEMPORAL</td>
                                     <td><input type="text" class="form-control" id="huawei_desconexion"></td>
                                     <td><input type="text" class="form-control" id="alcatel_desconexion"></td>
                                     <td><input type="text" class="form-control" id="interfaz_desconexion"></td>
-                                </tr>
+                                </tr>-->
                                 <tr>
                                     <td>PUNTO CENTRAL</td>
                                     <td><input type="text" class="form-control" id="huawei_puntoCentral"></td>
@@ -150,6 +150,6 @@
         <!-- CUSTOM SCRIPT   -->
         <script type="text/javascript"> var baseurl = "<?= URL::base() ?>";</script>
         <script scr="<?= URL::to("assets/plugins/sweetalert-master/dist/sweetalert.min.js") ?>" ></script>
-        <script type="text/javascript" src="<?= URL::to("assets/js/modules/markings.js") ?>"></script>
+        <script type="text/javascript" src="<?= URL::to("assets/js/modules/markings.js?v=". time()) ?>"></script>
     </body>
 </html>

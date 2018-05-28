@@ -1,6 +1,6 @@
 $(function () {
     var ini = {
-        
+
         countPrincipal: 1,
         countBackup: 1,
         countPuntoCentral: 1,
@@ -36,18 +36,11 @@ $(function () {
             var prefijoActual = '';
             var x = 0;
             var difPrefijo = '_';
-
-
-
-
             var prefijos = [];
 
             // ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             $("input[name='PrincipalCode[]']").each(function (i, item) {
-                // console.log(i);
-                // prefijos[item.value.substr(0,3)] += "," + item.value;
-                prefijos[i] =  item.value;     
-
+                prefijos[i] = item.value;
 
                 if (prefijoActual == $(this).val().replace(/[^A-Z a-z]/g, '')) {
                     principalCodes += (x === 0) ? $(this).val() + ',' : $(this).val().replace(/[^1-9]/g, '') + ',';
@@ -56,46 +49,45 @@ $(function () {
                     difPrefijo += $(this).val() + ',';
                     x++;
                 }
-
                 prefijoActual = $(this).val().replace(/[^A-Z a-z]/g, '');
 
             });
-            
-            $.post(baseurl + "/user/getPrefijo",
-              {
-                pref : prefijos
-              },
-              function (data) {
-                
-                principalCodes = data; 
 
-            $("input[name='BackupCode[]']").each(function () {
-                BackupCodes += $(this).val() + ',';
-            });
-            $("input[name='otpCode[]']").each(function () {
-                otpCode += $(this).val() + ',';
-            });
-            $("input[name='PuntoCentralCode[]']").each(function () {
-                PuntoCentralCode += "'" + $(this).val() + "',";
-            });
-            var normal = prefijo + nombreEmpresa + principalCodes.slice(0, -1);
-            var ppal = prefijo + nombreEmpresa + separador + "PPAL" + principalCodes.slice(0, -1) + "(" + BackupCodes.slice(0, -1) + ")";
-            var backup = prefijo + nombreEmpresa + separador + "BACKUP" + principalCodes.slice(0, -1) + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1);
-            var externo = prefijo + nombreEmpresa + separador + "(TE)" + separador + "OT" + separador + otpCode.slice(0, -1) + principalCodes.slice(0, -1);
-            var externoBackup = prefijo + nombreEmpresa + separador + "(TE)" + separador + "OT" + separador + otpCode.slice(0, -1) + separador + "BACKUP" + principalCodes.slice(0, -1) + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1);
-            var desconexion = prefijo + nombreEmpresa + separador + "(DTSC)" + separador + "OT" + separador + otpCode.slice(0, -1) + principalCodes.slice(0, -1);
-            var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + PuntoCentralCode.slice(0, -1);
-            var difPrefijo = nombreEmpresa + difPrefijo;
-            $("#" + capa + "_normal").val(normal);
-            $("#" + capa + "_ppal").val(ppal);
-            $("#" + capa + "_backup").val(backup);
-            $("#" + capa + "_externo").val(externo);
-            $("#" + capa + "_externoBackup").val(externoBackup);
-            $("#" + capa + "_desconexion").val(desconexion);
-            $("#" + capa + "_puntoCentral").val(puntoCentral);
-            $("#" + capa + "_difPrefijo").val(difPrefijo);
-            console.log(principalCodes);
-          });
+            $.post(baseurl + "/User/getPrefijo",
+                    {
+                        pref: prefijos
+                    },
+                    function (data) {
+
+                        principalCodes = data;
+
+                        $("input[name='BackupCode[]']").each(function () {
+                            BackupCodes += $(this).val() + ',';
+                        });
+                        $("input[name='otpCode[]']").each(function () {
+                            otpCode += $(this).val() + ',';
+                        });
+                        $("input[name='PuntoCentralCode[]']").each(function () {
+                            PuntoCentralCode += "'" + $(this).val() + "',";
+                        });
+                        var normal = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " ") + principalCodes;
+                        var ppal = prefijo + nombreEmpresa + separador + "PPAL - " + principalCodes + "(" + BackupCodes.slice(0, -1).trim() + ")";
+                        var backup = prefijo + nombreEmpresa + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+                        var externo = prefijo + nombreEmpresa + separador + "(TE) " + separador + "OT" + separador + otpCode.slice(0, -1) + " - " + principalCodes;
+                        var externoBackup = prefijo + nombreEmpresa + separador + "(TE) " + separador + "OT" + separador + otpCode.slice(0, -1) + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+                        var desconexion = prefijo + nombreEmpresa + separador + "(DTSC) " + separador + "OT" + separador + otpCode.slice(0, -1) + principalCodes;
+                        var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + PuntoCentralCode.slice(0, -1);
+                        var difPrefijo = nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
+                        $("#" + capa + "_normal").val(normal);
+                        $("#" + capa + "_ppal").val(ppal);
+                        $("#" + capa + "_backup").val(backup);
+                        $("#" + capa + "_externo").val(externo);
+                        $("#" + capa + "_externoBackup").val(externoBackup);
+                        $("#" + capa + "_desconexion").val(desconexion);
+                        $("#" + capa + "_puntoCentral").val(puntoCentral);
+                        $("#" + capa + "_difPrefijo").val(difPrefijo);
+//                        console.log(principalCodes);
+                    });
         },
         showLongNameMessage: function () {
 //            var cantLetras = $('#nombre_empresa').val().length;
@@ -117,7 +109,7 @@ $(function () {
         addPrincipalCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countPrincipal + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addPrincipalCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -134,7 +126,7 @@ $(function () {
         addBackupCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countBackup + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addBackupCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -151,7 +143,7 @@ $(function () {
         addPuntoCentralCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countPuntoCentral + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addPuntoCentralCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -168,7 +160,7 @@ $(function () {
         addOtpCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countOtp + '">'
                     + '<div class="col-sm-8 seccionOtp">'
-                    + '<input type="text" class="form-control" name="otpCode[]" placeholder="OTP" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionOtp">'
                     + '<button type="button" class="btn btn-success addOtpCode" style="margin: 10px 5px 0px 0px;">+</button>'
