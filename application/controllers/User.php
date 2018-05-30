@@ -68,6 +68,18 @@ class User extends CI_Controller {
         }
     }
 
+    public function routingVerification() {
+        if (!Auth::check()) {
+            Redirect::to(URL::base());
+        }
+        if (Auth::isEvaluador()) {
+            $daoEvaluador = new Dao_evaluador_model();
+            $this->load->view('principal', ["stadistics" => $daoEvaluador->getAllStadistics()->data]);
+        } else {
+          $this->load->view('dataValidation');
+        }
+    }
+
     public function loadInformation() {
         if (!Auth::check()) {
             Redirect::to(URL::base());
