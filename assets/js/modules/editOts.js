@@ -4,6 +4,7 @@ $(function () {
         init: function () {
             ini.events();
             ini.listVmAssigned();
+            ini.ListOtsfiteenDays();
         },
         //Eventos de la ventana.
         events: function () {
@@ -11,16 +12,21 @@ $(function () {
             $('#tablaEditOts').on('click', 'tr', ini.onClickTrTablaEditOts);
             $('#k_id_estado_ot').on('change', ini.onChangeTextStateOt);
             $('#btnUpdOt').on('click', ini.onSubmitForm);
+            $('#btnOtsfiteenDays').on('click', ini.showListOtsfiteenDays);
+        },
+        showListOtsfiteenDays: function (e) {
+            app.stopEvent(e);
+            $('#modalListOtsfiteenDays').modal('show');
         },
         onSubmitForm: function (e) {
-        app.stopEvent(e);
-        var form = $(this);
+            app.stopEvent(e);
+            var form = $(this);
 //        dom.confirmar("¿Está seguro que desea escalar el ticket?", function () {
             dom.submitDirect($('#formModal'), function (response) {
                 if (response.code > 0) {
                     swal("Guardado", "Se guardaron los cambios exitosamente", "success").then(function () {
-                            $('#modalEditTicket').modal('hide');
-                        });
+                        $('#modalEditTicket').modal('hide');
+                    });
                 } else {
                     swal("Error", "Lo sentimos se ha producido un error", "error");
                 }
@@ -28,7 +34,7 @@ $(function () {
 //        }, function () {
 //            swal("Cancelado", "Se ha cancelado la acción", "error");
 //        });
-    },
+        },
         // Capturo los valores de la fila a la que le doy clic
         onChangeTextStateOt: function () {
             var otEstado = $("#k_id_estado_ot option:selected").text().replace('_', '.');
@@ -156,6 +162,45 @@ $(function () {
                 return;
             }
             ini.tablaEditOts = $('#tablaEditOts').DataTable(dom.configTable(data,
+                    [
+                        {title: "Id Cliente Onyx", data: "id_cliente_onyx"},
+                        {title: "Nombre Cliente", data: "nombre_cliente"},
+                        {title: "Fecha Compromiso", data: "fecha_compromiso"},
+                        {title: "Fecha Programación", data: "fecha_programacion"},
+                        {title: "Id Orden Trabajo Hija", data: "id_orden_trabajo_hija"},
+                        {title: "Ot Hija", data: "ot_hija"},
+                        {title: "Estado Orden Trabajo Hija", data: "estado_orden_trabajo_hija"},
+//                        {title: "Dias", data: "n_days"},
+                    ],
+                    ));
+        },
+        ListOtsfiteenDays: function () {
+            //Invoca fillTable para configurar la TABLA.
+            // ini.fillTable([]);
+            //Realiza la petición AJAX para traer los datos...
+//            var alert = dom.printAlert('Consultando registros, por favor espere.', 'loading', $('#principalAlert'));
+            app.post('OtHija/getOtsFiteenDays')
+                    .complete(function () {
+                        alert.hide();
+                        $('.contentPrincipal').removeClass('hidden');
+                    })
+                    .success(function (response) {
+//                        console.log(response);
+                        if (app.successResponse(response)) {
+                            ini.fillTableOtsfiteenDays(response.data);
+                        } else {
+                            ini.fillTableOtsfiteenDays([]);
+                        }
+                    }).error(function (e) {
+                console.error(e);
+            }).send();
+        },
+        fillTableOtsfiteenDays: function (data) {
+            if (ini.tablaOtsfiteenDays) {
+                dom.refreshTable(ini.tablaOtsfiteenDays, data);
+                return;
+            }
+            ini.tablaOtsfiteenDays = $('#tablaOtsfiteenDays').DataTable(dom.configTable(data,
                     [
                         {title: "Id Cliente Onyx", data: "id_cliente_onyx"},
                         {title: "Nombre Cliente", data: "nombre_cliente"},

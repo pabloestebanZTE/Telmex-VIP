@@ -158,14 +158,10 @@ class LoadInformation extends CI_Controller {
                         
                         while ($pTipoOtHija < 85 && $maxTipoOtHija < 43){
                             similar_text($this->getValueCell($sheet, 'AV' . $row),$tipoOtHijaName[$cont]->n_name_tipo , $pTipoOtHija);
-                            
                             $tipoOtHija[0]->id_tipo = $tipoOtHijaName[$cont]->k_id_tipo;
                             $maxTipoOtHija++;
-                            
                             $cont++;                      
-                            
                         }
-                    
                     }
                     //validamos que el estado de la ot del excel sea mayor al estado de del registro en DB
                     $estadosOt = $estadoOtModel->getStatusByTypeOtAndStatusName($tipoOtHija[0]->id_tipo, $otHija->estado_orden_trabajo_hija, $this->getValueCell($sheet, 'AZ' . $row));

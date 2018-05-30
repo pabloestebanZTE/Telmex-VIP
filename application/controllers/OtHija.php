@@ -33,5 +33,17 @@ class OtHija extends CI_Controller {
             return;
         }
     }
+    
+    public function getOtsFiteenDays() {
+        $response = null;
+        if (Auth::check()) {
+            $otHijaModel = new Dao_ot_hija_model();
+            $res = $otHijaModel->getOtsFiteenDays();
+            $this->json($res);
+        } else {
+            $this->json(new Response(EMessages::SESSION_INACTIVE));
+            return;
+        }
+    }
 
 }

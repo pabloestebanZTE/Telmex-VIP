@@ -15,9 +15,16 @@
                     0%
                 </div>
             </div>
-            <form class= 'well form-horizontal' action='' method='post'  id='assignService' name='assignServie' enctype= 'multipart/form-data'>
+            <br>
+            <!--            <div>
+                            <script type='text/javascript' src='http://181.49.46.6/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 100%; height: 619px;'><object class='tableauViz' width='100%' height='619' style='display:none;'><param name='host_url' value='http%3A%2F%2F181.49.46.6%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='TVIPInstalaciones&#47;EstadodeOTs' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+                        </div>-->
+            <form class= 'well form-horizontal' enctype= 'multipart/form-data'>
                 <fieldset>
                     <div class="row">
+                        <div class="col col-md-12" style="text-align: center;">
+                            <button class="btn btn-danger" id="btnOtsfiteenDays">OTs mas de 15 días</button>
+                        </div>
                         <div class="col col-md-12 p-t-40">
                             <input type="hidden" value="<?= Auth::getRole() ?>" id="rol">
                             <table id="tablaEditOts" class="table table-hover table-striped" width="100%"></table>
@@ -27,7 +34,7 @@
                 </fieldset>
             </form>
 
-            <!-- Modal Cierre -->
+            <!-- Modal editar OTs -->
             <div id="modalEditTicket" class="modal fade" role="dialog" >
                 <div class="modal-dialog modal-lg2" style="width: 1000px;">
                     <div class="modal-content">
@@ -684,7 +691,7 @@
                                                 </div>
                                             </fieldset>
                                         </div>
-                                        
+
                                         <div class="widget bg_white m-t-25 display-block">
                                             <fieldset class="col-md-12 control-label">
                                                 <div class="form-group">
@@ -712,6 +719,36 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal lista OTs 15 dias -->
+            <div id="modalListOtsfiteenDays" class="modal fade" role="dialog" >
+                <div class="modal-dialog modal-lg2" style="width: 1000px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h3 class="modal-title" id="myModalLabel"></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <form class='well form-horizontal' enctype= 'multipart/form-data'>
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col col-md-12 p-t-40">
+                                                <table id="tablaOtsfiteenDays" class="table table-hover table-striped" width="100%"></table>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="mbtnCerrarModal" data-dismiss="modal"><i class='glyphicon glyphicon-remove'></i>&nbsp;Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--footer Section -->
         <div class="for-full-back" id="footer">
@@ -723,6 +760,6 @@
             var estadosOts = <?= $estadosOts ?>;
         </script>
         <script scr="<?= URL::to("assets/plugins/sweetalert-master/dist/sweetalert.min.js") ?>" ></script>
-        <script type="text/javascript" src="<?= URL::to("assets/js/modules/editOts.js") ?>"></script>
+        <script type="text/javascript" src="<?= URL::to("assets/js/modules/editOts.js?v=". time()) ?>"></script>
     </body>
 </html>
