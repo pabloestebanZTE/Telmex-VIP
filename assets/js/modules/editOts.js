@@ -181,7 +181,7 @@ $(function () {
 //            var alert = dom.printAlert('Consultando registros, por favor espere.', 'loading', $('#principalAlert'));
             app.post('OtHija/getOtsFiteenDays')
                     .complete(function () {
-                        alert.hide();
+//                        alert.hide();
                         $('.contentPrincipal').removeClass('hidden');
                     })
                     .success(function (response) {

@@ -97,11 +97,10 @@ class Dao_ot_hija_model extends CI_Model {
             if (Auth::user()->n_role_user == 'ingeniero') {
                 $condicion = "AND usuario_asignado like '%$usuario_session%'";
             }
-            $datos = $db->select("SELECT oh.*, eo.k_id_tipo 
-                                FROM ot_hija oh
-                                INNER JOIN estado_ot eo ON oh.k_id_estado_ot = eo.k_id_estado_ot
-                                WHERE fecha_actual = CURDATE() 
-                                $condicion ORDER BY n_days DESC")->get();
+            $datos = $db->select("SELECT * 
+                                FROM ot_hija
+                                WHERE ADDDATE(fecha_actual, INTERVAL 15 DAY) = CURDATE() 
+                                $condicion")->get();
             $response = new Response(EMessages::SUCCESS);
             $response->setData($datos);
             return $response;
