@@ -749,6 +749,77 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Modal envio de correo -->
+            <div id="modalSendMailUpdateReport" class="modal fade" role="dialog" >
+                <div class="modal-dialog modal-lg2" style="width: 1000px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                            <h3 class="modal-title" id="myModalLabel"></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <form class="well form-horizontal" id="formModal" action="OtHija/updateStatusOt" method="post" novalidate="novalidate">
+                                    <input name="k_id_register" id="k_id_register" type="hidden">
+                                    <input name="estado_orden_trabajo_hija" id="estado_orden_trabajo_hija" type="hidden">
+                                    <fieldset>
+                                        <div class="widget bg_white m-t-25 display-block">
+                                            <fieldset class="col-md-6 control-label">
+                                                <div class="form-group">
+                                                    <label for="ot_hija" class="col-md-3 control-label">Ot Hija: &nbsp;</label>
+                                                    <div class="col-md-8 selectContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class='glyphicon glyphicon-user'></i></span>
+                                                            <input name="ot_hija" id="ot_hija" class="form-control" type="text" disabled="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <!--  fin seccion izquierda form---->
+
+                                            <!--  inicio seccion derecha form---->
+                                            <fieldset>
+                                                <div class="form-group">
+                                                    <label for="k_id_estado_ot" class="col-md-3 control-label">Estado Orden Trabajo Hija: &nbsp;</label>
+                                                    <div class="col-md-8 selectContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class='glyphicon glyphicon-calendar'></i></span>
+                                                            <select name="k_id_estado_ot" id="k_id_estado_ot" class="form-control">                                                                
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+                                        <div class="widget bg_white m-t-25 display-block">
+                                            <fieldset class="col-md-12 control-label">
+                                                <div class="form-group">
+                                                    <label for="observaciones" class="col-md-3 control-label">Observaciones: &nbsp;</label>
+                                                    <div class="col-md-8 selectContainer">
+                                                        <div class="input-group">
+                                                            <textarea name="observaciones" id="observaciones" class="form-control" rows="4" cols="100"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <div class="form-group m-t-40 p-b-40"></div>
+                                            </fieldset>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="mbtnCerrarModal" data-dismiss="modal"><i class='glyphicon glyphicon-remove'></i>&nbsp;Cancelar</button>
+                            <button type="button" class="btn btn-info" id="btnUpdOt"><i class='glyphicon glyphicon-envelope'></i>&nbsp;Enviar Correo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--footer Section -->
         <div class="for-full-back" id="footer">

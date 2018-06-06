@@ -53,3 +53,11 @@ $route['default_controller'] = 'welcome';
 $route['prueba'] = 'welcome/prueba';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['principal'] = 'User/principal';
+$route['paginaPrincipal'] = 'User/principalView';
+$route['editarOts'] = 'User/editOts';
+$route['cargarOts'] = 'User/loadInformation';
+$route['generarMarcaciones'] = 'User/markings';
+$route['validadorIp'] = 'User/routingVerification';
+$route['login'] = 'welcome/index';

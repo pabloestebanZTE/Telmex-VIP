@@ -10,9 +10,24 @@ $(function () {
         events: function () {
             //Al darle clic a una fila llama la funcion onClickTrTablaEditOts
             $('#tablaEditOts').on('click', 'tr', ini.onClickTrTablaEditOts);
+            $('#tablaOtsfiteenDays').on('click', 'tr', ini.onClickTrTablaOtsfiteenDays);
             $('#k_id_estado_ot').on('change', ini.onChangeTextStateOt);
             $('#btnUpdOt').on('click', ini.onSubmitForm);
             $('#btnOtsfiteenDays').on('click', ini.showListOtsfiteenDays);
+        },
+        modalSendMailUpdateReport: function () {
+            $('#modalSendMailUpdateReport').modal('show');
+        },
+        onClickTrTablaOtsfiteenDays: function () {
+            var tr = $(this);
+            ini.tr = tr;
+            if (ini.tablaOtsfiteenDays) {
+                var registro = ini.tablaOtsfiteenDays.row(tr).data();
+                //si selecciona el header de la tabla no se muestre el modal
+                if (registro != undefined) {
+                    ini.modalSendMailUpdateReport(registro);
+                }
+            }
         },
         showListOtsfiteenDays: function (e) {
             app.stopEvent(e);
@@ -47,13 +62,13 @@ $(function () {
                 var registro = ini.tablaEditOts.row(tr).data();
                 //si selecciona el header de la tabla no se muestre el modal
                 if (registro != undefined) {
-                    ini.modalEditar(registro);
+                    ini.modalEdit(registro);
                 }
             }
 
         },
         //llama el modal
-        modalEditar: function (registro) {
+        modalEdit: function (registro) {
             ini.onChangeTextStateOt;
             $('#k_id_register').val(registro.k_id_register);
             $('#id_cliente_onyx').val(registro.id_cliente_onyx);

@@ -27,7 +27,7 @@ class User extends CI_Controller {
         }
         //Comprobamos si el Auth ha encontrado válida las credenciales consultadas...
         if ($res) {
-            Redirect::redirect(URL::to("User/principal"));
+            Redirect::redirect(URL::to("principal"));
         } else {
             $answer['error'] = "error";
             $this->load->view('login', $answer);
@@ -44,7 +44,7 @@ class User extends CI_Controller {
 
     public function logout() {
         Auth::logout();
-        Redirect::to(URL::to("welcome/index"));
+        Redirect::to(URL::to("login"));
     }
 
     public function comprobarSesion() {

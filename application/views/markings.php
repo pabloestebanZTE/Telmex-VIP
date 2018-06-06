@@ -17,6 +17,9 @@
                                 <label for="nombre_empresa" class="col-sm-2 control-label">NOMBRE EMPRESA</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa" placeholder="Nombre Empresa">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="transaccional">Transaccional</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -49,7 +52,10 @@
                             <div class="form-group">
                                 <button type="button" id="btnPuntoCentral" class="btn btn-primary col-sm-2 btnMarcaciones">Punto Central</button>
                                 <div id="groupPuntoCentral">
-                                    <div class="col-sm-8 seccionPuntoCentral" style="display: none;">
+                                    <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
+                                        <input type="text" class="form-control" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="7">
+                                    </div>
+                                    <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
                                         <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7">
                                     </div>
                                     <div class="col-sm-2 seccionPuntoCentral" style="display: none;">
@@ -77,7 +83,7 @@
                             </div>
                             <br/>
                         </div>
-                        
+
                         <table class="table table-hover table-striped" style="display: none;" id="tablaMarcaciones">
                             <thead>
                                 <tr>
@@ -150,6 +156,6 @@
         <!-- CUSTOM SCRIPT   -->
         <script type="text/javascript"> var baseurl = "<?= URL::base() ?>";</script>
         <script scr="<?= URL::to("assets/plugins/sweetalert-master/dist/sweetalert.min.js") ?>" ></script>
-        <script type="text/javascript" src="<?= URL::to("assets/js/modules/markings.js?v=". time()) ?>"></script>
+        <script type="text/javascript" src="<?= URL::to("assets/js/modules/markings.js?v=" . time()) ?>"></script>
     </body>
 </html>
