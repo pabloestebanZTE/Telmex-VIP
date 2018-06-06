@@ -29,7 +29,7 @@
                                 <button type="button" id="btnPrincipal" class="btn btn-primary col-sm-2 btnMarcaciones">Principal</button>
                                 <div id="groupPrincipal">
                                     <div class="col-sm-8 seccionPrincipal" style="display: none;">
-                                        <input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="7">
+                                        <input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionPrincipal" style="display: none;">
                                         <button type="button" class="btn btn-success addPrincipalCode">+</button>

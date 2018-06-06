@@ -108,24 +108,22 @@ class User extends CI_Controller {
     public function getPrefijo(){
 
         $prefijos = $this->input->post('pref');
+        // header('Content-Type: text/plain');
+        // print_r($prefijos);
 
-        for ($i=0; $i < count($prefijos); $i++) {
-          if($prefijos[$i][3] != "0"){
-            $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 3,4);
+
+        for ($i=0; $i < count($prefijos) ; $i++) { 
+          if (is_numeric($prefijos[$i][3])) {
+            $pref[substr($prefijos[$i], 0, 3)][$i] = substr($prefijos[$i], 3);      
           } else {
-            if($prefijos[$i][4] != "0"){
-              $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 4,3);
-            } else{
-              if($prefijos[$i][5] != "0"){
-                $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 5,2);
-              } else {
-                $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 6,1);
-              }
+            if (is_numeric($prefijos[$i][4])) {
+            $pref[substr($prefijos[$i], 0, 4)][$i] = substr($prefijos[$i], 4);
+            } else {
+              $pref[substr($prefijos[$i], 0, 5)][$i] = substr($prefijos[$i], 5);
             }
-          }
-        //    $pref[substr($prefijos[$i], 0, 3 )][$i] = substr($prefijos[$i], 3,4);
-        }
 
+          }  
+        }
 
   /************************************************************************************************************/
         $j = 0;
@@ -151,7 +149,7 @@ class User extends CI_Controller {
                   //echo "com =  1<br>";
                   if($flag == 0){
                     //NO VIENE DE SUCESION Y VA PARA SUCESION, PINTA NUMERO -
-                      $string[$i] = $string[$i].$pref[$res[$i]][$j]."-";
+                      $string[$i] = $string[$i].$pref[$res[$i]][$j]."_";
                   } else {
                     //NO HACE NADA PORQUE VIENE DE SUCESION Y SIGUE EN SUCESION
                   }
@@ -161,10 +159,10 @@ class User extends CI_Controller {
                   //VERIFICA SI VIENE DE UNA SUCESION
                   if($flag == 0){
                       //NO VIENE DE SUCESION Y NO VA PARA SUCESION, NUMERO,
-                      $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                      $string[$i] = $string[$i].$pref[$res[$i]][$j].".";
                   } else {
                     //NO VIENE DE SUCESION Y NO VA PARA SUCESION, NUMERO,
-                      $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                      $string[$i] = $string[$i].$pref[$res[$i]][$j].".";
                   }
                   $flag = 0;
                 }
@@ -177,7 +175,7 @@ class User extends CI_Controller {
             }
           }
           if($i != (count($res)-1)){
-            $respuesta = $respuesta.$string[$i].",";
+            $respuesta = $respuesta.$string[$i].".";
           } else {
               $respuesta = $respuesta.$string[$i];
           }

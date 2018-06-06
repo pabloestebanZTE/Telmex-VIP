@@ -137,7 +137,7 @@ $(function () {
         addPrincipalCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countPrincipal + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="7" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="8" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addPrincipalCode" style="margin: 10px 5px 0px 0px;">+</button>'
