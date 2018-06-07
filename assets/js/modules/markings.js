@@ -89,8 +89,10 @@ $(function () {
                             var difPrefijo = nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
 
                             if (BackupCodesCont !== "") {
-                                var ppal = prefijo + nombreEmpresa + separador + "PPAL - "  + principalCodes + "(" + BackupCodes.slice(0, -1).trim() + ")";
-                                var backup = prefijo + nombreEmpresa + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+//                                var ppal = prefijo + nombreEmpresa + separador + "PPAL - "  + principalCodes + "(" + BackupCodes.slice(0, -1).trim() + ")";
+//                                var backup = prefijo + nombreEmpresa + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+                                var ppal = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
+                                var backup = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
                             }
 
                             if (otpCodeCont !== "") {

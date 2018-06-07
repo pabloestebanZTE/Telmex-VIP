@@ -41,7 +41,7 @@
                                 <button type="button" id="btnBackup" class="btn btn-primary col-sm-2 btnMarcaciones">Backup</button>
                                 <div id="groupBackup">
                                     <div class="col-sm-8 seccionBackup" style="display: none;">
-                                        <input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="7">
+                                        <input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionBackup" style="display: none;">
                                         <button type="button" class="btn btn-success addBackupCode">+</button>
@@ -53,10 +53,10 @@
                                 <button type="button" id="btnPuntoCentral" class="btn btn-primary col-sm-2 btnMarcaciones">Punto Central</button>
                                 <div id="groupPuntoCentral">
                                     <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
-                                        <input type="text" class="form-control" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="7">
+                                        <input type="text" class="form-control" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="8">
                                     </div>
                                     <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
-                                        <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7">
+                                        <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionPuntoCentral" style="display: none;">
                                         <button type="button" class="btn btn-success addPuntoCentralCode">+</button>
@@ -68,7 +68,7 @@
                                 <button type="button" id="btnOtp" class="btn btn-primary col-sm-2 btnMarcaciones">OTP</button>
                                 <div id="groupOtp">
                                     <div class="col-sm-8 seccionOtp" style="display: none;">
-                                        <input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="7">
+                                        <input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionOtp" style="display: none;">
                                         <button type="button" class="btn btn-success addOtpCode">+</button>
