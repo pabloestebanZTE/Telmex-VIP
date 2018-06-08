@@ -3,12 +3,9 @@
     <?php $this->load->view('parts/generic/head'); ?>
     <body data-base="<?= URL::base() ?>">
         <?php $this->load->view('parts/generic/header'); ?>
+        <br><br>
         <div class="container autoheight p-t-20 m-t-20">
-            <div class="alert alert-success alert-dismissable hidden" id="principalAlert">
-                <a href="#" class="close">&times;</a>
-                <p id="text" class="m-b-0 p-b-0"></p>
-            </div>
-            <form class= 'well form-horizontal' action='' method='post'  id='markings' name='markings' enctype= 'multipart/form-data'>
+            <form class= 'well form-horizontal' id='markings' name='markings'>
                 <fieldset>
                     <div class="row">
                         <div class="col col-md-12 p-t-40">
@@ -16,7 +13,7 @@
                             <div class="form-group">
                                 <label for="nombre_empresa" class="col-sm-2 control-label">NOMBRE EMPRESA</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="nombre_empresa" name="nombre_empresa" placeholder="Nombre Empresa">
+                                    <input type="text" class="form-control text-transform" id="nombre_empresa" name="nombre_empresa" placeholder="Nombre Empresa">
                                     <div class="checkbox">
                                         <label><input type="checkbox" id="transaccional">Transaccional</label>
                                     </div>
@@ -29,7 +26,7 @@
                                 <button type="button" id="btnPrincipal" class="btn btn-primary col-sm-2 btnMarcaciones">Principal</button>
                                 <div id="groupPrincipal">
                                     <div class="col-sm-8 seccionPrincipal" style="display: none;">
-                                        <input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="8">
+                                        <input type="text" class="form-control text-transform" name="PrincipalCode[]" placeholder="Principal" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionPrincipal" style="display: none;">
                                         <button type="button" class="btn btn-success addPrincipalCode">+</button>
@@ -41,7 +38,7 @@
                                 <button type="button" id="btnBackup" class="btn btn-primary col-sm-2 btnMarcaciones">Backup</button>
                                 <div id="groupBackup">
                                     <div class="col-sm-8 seccionBackup" style="display: none;">
-                                        <input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="8">
+                                        <input type="text" class="form-control text-transform" name="BackupCode[]" placeholder="Backup" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionBackup" style="display: none;">
                                         <button type="button" class="btn btn-success addBackupCode">+</button>
@@ -53,10 +50,10 @@
                                 <button type="button" id="btnPuntoCentral" class="btn btn-primary col-sm-2 btnMarcaciones">Punto Central</button>
                                 <div id="groupPuntoCentral">
                                     <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
-                                        <input type="text" class="form-control" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="8">
+                                        <input type="text" class="form-control text-transform" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="8">
                                     </div>
                                     <div class="col-sm-4 seccionPuntoCentral" style="display: none;">
-                                        <input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="8">
+                                        <input type="text" class="form-control text-transform" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionPuntoCentral" style="display: none;">
                                         <button type="button" class="btn btn-success addPuntoCentralCode">+</button>
@@ -68,7 +65,7 @@
                                 <button type="button" id="btnOtp" class="btn btn-primary col-sm-2 btnMarcaciones">OTP</button>
                                 <div id="groupOtp">
                                     <div class="col-sm-8 seccionOtp" style="display: none;">
-                                        <input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="8">
+                                        <input type="text" class="form-control text-transform" name="otpCode[]" placeholder="OTP" maxlength="8">
                                     </div>
                                     <div class="col-sm-2 seccionOtp" style="display: none;">
                                         <button type="button" class="btn btn-success addOtpCode">+</button>
@@ -96,51 +93,51 @@
                             <tbody>
                                 <tr>
                                     <td class="tdMarcaciones">NORMAL</td>
-                                    <td><input type="text" class="form-control" id="huawei_normal"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_normal"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_normal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_normal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_normal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_normal"></td>
                                 </tr>
                                 <tr>
                                     <td>PPAL CON BACKUP</td>
-                                    <td><input type="text" class="form-control" id="huawei_ppal"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_ppal"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_ppal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_ppal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_ppal"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_ppal"></td>
                                 </tr>
                                 <tr>
                                     <td>BACKUP</td>
-                                    <td><input type="text" class="form-control" id="huawei_backup"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_backup"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_backup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_backup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_backup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_backup"></td>
                                 </tr>
                                 <tr>
                                     <td>TRASLADO EXTERNO</td>
-                                    <td><input type="text" class="form-control" id="huawei_externo"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_externo"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_externo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_externo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_externo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_externo"></td>
                                 </tr>
                                 <tr>
                                     <td>TRASLADO EXTERNO BACKUP</td>
-                                    <td><input type="text" class="form-control" id="huawei_externoBackup"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_externoBackup"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_externoBackup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_externoBackup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_externoBackup"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_externoBackup"></td>
                                 </tr>
 <!--                                <tr>
                                     <td>DESCONEXION TEMPORAL</td>
-                                    <td><input type="text" class="form-control" id="huawei_desconexion"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_desconexion"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_desconexion"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_desconexion"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_desconexion"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_desconexion"></td>
                                 </tr>-->
                                 <tr>
                                     <td>PUNTO CENTRAL</td>
-                                    <td><input type="text" class="form-control" id="huawei_puntoCentral"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_puntoCentral"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_puntoCentral"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_puntoCentral"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_puntoCentral"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_puntoCentral"></td>
                                 </tr>
                                 <tr>
                                     <td>DOS O MAS SERV DIF PREFIJO</td>
-                                    <td><input type="text" class="form-control" id="huawei_difPrefijo"></td>
-                                    <td><input type="text" class="form-control" id="alcatel_difPrefijo"></td>
-                                    <td><input type="text" class="form-control" id="interfaz_difPrefijo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="huawei_difPrefijo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="alcatel_difPrefijo"></td>
+                                    <td><input type="text" class="form-control text-transform" id="interfaz_difPrefijo"></td>
                                 </tr>
                             </tbody>
                         </table>

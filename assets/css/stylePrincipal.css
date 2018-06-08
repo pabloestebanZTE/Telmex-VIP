@@ -1053,3 +1053,7 @@ body{
 table th, table td{
     font-size: 11px;
 }
+
+.text-transform {
+    text-transform: uppercase;
+}
