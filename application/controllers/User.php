@@ -226,6 +226,7 @@ class User extends CI_Controller {
       return $x;
     }
 
+    //FUNCIONA
     // RETORNA SOLO LAS COINCIDENCIAS DE SE SEGUNDO NUMERO CON RESPECTO AL PRIMERO 
     //EJEM_ (232, 238) => 8    EJ: (123, 143)
     public function delecteCoinci($num1, $num2){
