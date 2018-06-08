@@ -89,10 +89,10 @@ $(function () {
                             var difPrefijo = nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
 
                             if (BackupCodesCont !== "") {
-//                                var ppal = prefijo + nombreEmpresa + separador + "PPAL - "  + principalCodes + "(" + BackupCodes.slice(0, -1).trim() + ")";
-//                                var backup = prefijo + nombreEmpresa + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
-                                var ppal = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
-                                var backup = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
+                                var ppal = prefijo + nombreEmpresa + separador + "PPAL - "  + principalCodes + "(" + BackupCodes.slice(0, -1).trim() + ")";
+                                var backup = prefijo + nombreEmpresa + separador + "BACKUP " + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+//                                var ppal = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
+//                                var backup = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + principalCodes;
                             }
 
                             if (otpCodeCont !== "") {
@@ -109,10 +109,10 @@ $(function () {
                             var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + ((capa !== 'huawei') ? "'PC" + PuntoDestinoCode.slice(0, -1).replace(/[^1-9]/g, '') + " - " + PuntoCentralCode.slice(0, -1) + "'" : PuntoCentralCode.slice(0, -1));
                         }
                         $("#" + capa + "_normal").val(normal);
-                        $("#" + capa + "_ppal").val(ppal);
-                        $("#" + capa + "_backup").val(backup);
-                        $("#" + capa + "_externo").val(externo);
-                        $("#" + capa + "_externoBackup").val(externoBackup);
+                        $("#" + capa + "_ppal").val(((capa !== 'interfaz') ? normal : ppal));
+                        $("#" + capa + "_backup").val(((capa !== 'interfaz') ? normal : backup));
+                        $("#" + capa + "_externo").val(((capa !== 'interfaz') ? normal : externo));
+                        $("#" + capa + "_externoBackup").val(((capa !== 'interfaz') ? normal : externoBackup));
                         $("#" + capa + "_desconexion").val(desconexion);
                         $("#" + capa + "_puntoCentral").val(puntoCentral);
                         $("#" + capa + "_difPrefijo").val(difPrefijo);
@@ -139,7 +139,7 @@ $(function () {
         addPrincipalCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countPrincipal + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PrincipalCode[]" placeholder="Principal" maxlength="8" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control text-transform" name="PrincipalCode[]" placeholder="Principal" maxlength="8" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addPrincipalCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -156,7 +156,7 @@ $(function () {
         addBackupCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countBackup + '">'
                     + '<div class="col-sm-8 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="BackupCode[]" placeholder="Backup" maxlength="7" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control text-transform" name="BackupCode[]" placeholder="Backup" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addBackupCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -173,10 +173,10 @@ $(function () {
         addPuntoCentralCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countPuntoCentral + '">'
                     + '<div class="col-sm-4 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="7" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control text-transform" name="PuntoDestinoCode[]" placeholder="Punto Destino" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-4 seccionPrincipal">'
-                    + '<input type="text" class="form-control" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control text-transform" name="PuntoCentralCode[]" placeholder="Punto Central" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionPrincipal">'
                     + '<button type="button" class="btn btn-success addPuntoCentralCode" style="margin: 10px 5px 0px 0px;">+</button>'
@@ -193,7 +193,7 @@ $(function () {
         addOtpCode: function () {
             var html = '<div style="margin-left: 186px; width: 100%;" id="group' + ini.countOtp + '">'
                     + '<div class="col-sm-8 seccionOtp">'
-                    + '<input type="text" class="form-control" name="otpCode[]" placeholder="OTP" maxlength="7" style="margin-top: 10px;">'
+                    + '<input type="text" class="form-control text-transform" name="otpCode[]" placeholder="OTP" maxlength="7" style="margin-top: 10px;">'
                     + '</div>'
                     + '<div class="col-sm-2 seccionOtp">'
                     + '<button type="button" class="btn btn-success addOtpCode" style="margin: 10px 5px 0px 0px;">+</button>'
