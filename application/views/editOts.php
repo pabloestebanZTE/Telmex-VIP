@@ -765,28 +765,14 @@
                                     <input name="estado_orden_trabajo_hija" id="estado_orden_trabajo_hija" type="hidden">
                                     <fieldset>
                                         <div class="widget bg_white m-t-25 display-block">
-                                            <fieldset class="col-md-6 control-label">
-                                                <div class="form-group">
-                                                    <label for="ot_hija" class="col-md-3 control-label">Ot Hija: &nbsp;</label>
-                                                    <div class="col-md-8 selectContainer">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon"><i class='glyphicon glyphicon-user'></i></span>
-                                                            <input name="ot_hija" id="ot_hija" class="form-control" type="text" disabled="true">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <!--  fin seccion izquierda form---->
-
                                             <!--  inicio seccion derecha form---->
                                             <fieldset>
                                                 <div class="form-group">
-                                                    <label for="k_id_estado_ot" class="col-md-3 control-label">Estado Orden Trabajo Hija: &nbsp;</label>
+                                                    <label for="k_id_estado_ot" class="col-md-3 control-label">Enviar a: &nbsp;</label>
                                                     <div class="col-md-8 selectContainer">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class='glyphicon glyphicon-calendar'></i></span>
-                                                            <select name="k_id_estado_ot" id="k_id_estado_ot" class="form-control">                                                                
-                                                            </select>
+                                                            <input type="text" id="emailReporte" name="emailReporte" class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>
