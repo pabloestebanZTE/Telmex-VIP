@@ -41,14 +41,14 @@ $(function () {
             var otpCode = ' ';
             var PuntoCentralCode = '';
             var PuntoDestinoCode = '';
-            var nombreEmpresa = (capa == 'huawei') ? $("#nombre_empresa").val().split(" ").join("_") : $("#nombre_empresa").val();
+            var nombreEmpresa = (capa == 'huawei') ? $("#nombre_empresa").val().split(" ").join("_").split(".").join("") : $("#nombre_empresa").val();
             var prefijoActual = '';
             var cont = 0;
             var cont2 = 0;
             var difPrefijo = '_';
             var prefijos = [];
             $("input[name='PrincipalCode[]']").each(function (i, item) {
-                prefijos[i] = item.value;
+                prefijos[i] = item.value.toUpperCase();
                 if (prefijoActual == $(this).val().replace(/[^A-Z a-z]/g, '')) {
                     principalCodes += (cont === 0) ? $(this).val() + ',' : $(this).val().replace(/[^1-9]/g, '') + ',';
                 } else {
@@ -65,7 +65,7 @@ $(function () {
                     },
                     function (data) {
 
-                        principalCodes = data;
+                        principalCodes = (capa == 'huawei') ? data : data.split(".").join(",").split("_").join("-");
                         $("input[name='BackupCode[]']").each(function () {
                             BackupCodes += $(this).val() + ',';
                         });
@@ -101,12 +101,12 @@ $(function () {
                             }
                             
                             if (otpCodeCont !== "" && BackupCodesCont !== "") {
-                                var externoBackup = prefijo + nombreEmpresa + separador + "(TE)" + separador + "OT" + separador + otpCode.slice(0, -1).trim() +  separador + /*"BACKUP" + separador +*/ principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
+                                var externoBackup = prefijo + nombreEmpresa + separador + "(TE)" + separador + "OT" + separador + otpCode.slice(0, -1).trim() +  separador + "BACKUP" + separador + principalCodes + ((capa == 'huawei') ? "_" : " - ") + BackupCodes.slice(0, -1).trim();
                             }
                         }
 
                         if (PuntoCentralCodeCont !== "") {
-                            var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + ((capa !== 'huawei') ? "'PC" + PuntoDestinoCode.slice(0, -1).replace(/[^1-9]/g, '') + " - " + PuntoCentralCode.slice(0, -1) + "'" : PuntoCentralCode.slice(0, -1));
+                            var puntoCentral = prefijo + nombreEmpresa + ((capa == 'huawei') ? "_" : " - ") + ((capa !== 'huawei') ? "'PC" + PuntoDestinoCode.slice(0, -1).replace(/[^0-9]/g, '') + " - " + PuntoCentralCode.slice(0, -1) + "'" : PuntoCentralCode.slice(0, -1));
                         }
                         $("#" + capa + "_normal").val(normal);
                         $("#" + capa + "_ppal").val(((capa !== 'interfaz') ? normal : ppal));

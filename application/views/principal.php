@@ -31,7 +31,7 @@
                         <div class="col-md-9 col-sm-9">
                             <div style="height: 400px;"></div>
                             <h1 class="head-main">&nbsp;ZTE</h1>
-                            <span class="head-sub-main">Implementación de servicios - </span><img src="<?= URL::to('assets/img/logoClaro.png') ?>" width="100"/>
+                            <span class="head-sub-main">Implementación de servicios - </span><img class="m-b-25" src="<?= URL::to('assets/img/logoClaro.png') ?>" width="100"/>
                             <div class="head-last"><!--texto aca--> </div>
                         </div>
                     </div>
