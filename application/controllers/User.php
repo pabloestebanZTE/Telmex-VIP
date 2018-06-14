@@ -125,19 +125,31 @@ class User extends CI_Controller {
           }  
         }
 
-  /************************************************************************************************************/
         $j = 0;
         foreach ($pref as $i => $valores) {
             $res[$j] = "$i";
             $j++;
         }
 
+
+        $data['huawei_zte'] = $this->getDialingHuaweiZte($res, $pref);
+        $data['alcatel'] = $this->getDialingAlcatel($res, $pref);
+
+
+        
+        // echo json_encode($data);
+        $this->json($data);
+
+  
+    }
+
+    //
+    private function getDialingHuaweiZte($res, $pref){
         $respuesta = "";
         for($i = 0; $i < count($res); $i++){
           $string[$i] = $res[$i];
           $flag = 0;
           sort($pref[$res[$i]]);
-          //$pref[$res[$i]][0] = $this->fixZeros($pref[$res[$i]][0]);
           //RECORRE EL ARREGLO
           for($j = 0; $j < count($pref[$res[$i]]); $j++){
 
@@ -153,12 +165,45 @@ class User extends CI_Controller {
                               if($flag == 0){                                
                                   //NO VIENE DE SECUENCIA Y VA PARA SECUENCIA, PINTA NUMERO -
                                   if (isset($pref[$res[$i]][$j-1])) {
+                                      // MODIFICACION PARA COLUMNA 2 Y 3 (CUANDO ES SOLO UN COSECUTIVO AÑADE , EN VEZ DE _)
+                                      // if (isset($pref[$res[$i]][$j+2])) {
+
+                                      //     if ($pref[$res[$i]][$j+2] == $pref[$res[$i]][$j] + 2) {
+                                            
+                                      //       $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j])."_";
+                                      //     }else {
+                                      //       $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).",";
+                                            
+                                      //     }
+                                        
+                                      // }else{                                      
+                                      //     $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).",";
+                                      // }
+
+
+
                                     $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j])."_";
+
                                   }
                                   else {
+
+                                    // if (isset($pref[$res[$i]][$j+2])) {
+
+                                    //     if ($pref[$res[$i]][$j+2] == $pref[$res[$i]][$j] + 2) {
+                                          
+                                    //        $string[$i] = $string[$i].$pref[$res[$i]][$j]."_";
+                                    //     }else {
+                                    //        $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                                          
+                                    //     }
+
+                                    // }else{                                      
+                                    //    $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                                    // }
+
+
                                     $string[$i] = $string[$i].$pref[$res[$i]][$j]."_";
                                   }
-                                  // echo $pref[$res[$i]][$j]."\n";
                               } 
 
                               else {
@@ -210,21 +255,130 @@ class User extends CI_Controller {
               $respuesta = $respuesta.$string[$i];
           }
         }
-        $this->json($respuesta);
+
+        return $respuesta;
+
     }
 
-    public function fixZeros($x){
-      if(strlen($x) == 1){
-      $x = "000".$x;
-      }
-      if(strlen($x) == 2){
-      $x = "00".$x;
-      }
-      if(strlen($x) == 3){
-      $x = "0".$x;
-      }
-      return $x;
+    //
+    private function getDialingAlcatel($res, $pref){
+          $respuesta = "";
+        for($i = 0; $i < count($res); $i++){
+          $string[$i] = $res[$i];
+          $flag = 0;
+          sort($pref[$res[$i]]);
+          //RECORRE EL ARREGLO
+          for($j = 0; $j < count($pref[$res[$i]]); $j++){
+
+            //VERIFICA SI EL ARREGLO TIENE MAS DE UN ELEMENTO
+            if(count($pref[$res[$i]]) != 1){
+
+                  //VERIFICA QUE NO LLEGUE AL ULTIMO ELEMENTO DEL ARREGLO
+                  if($j != (count($pref[$res[$i]])-1)){
+
+                        //COMPARA SI EL NUMERO VA PARA UNA SECUENCIA
+                        if($pref[$res[$i]][$j+1] == ($pref[$res[$i]][$j]) + 1){
+
+                              if($flag == 0){                                
+                                  //NO VIENE DE SECUENCIA Y VA PARA SECUENCIA, PINTA NUMERO -
+                                  if (isset($pref[$res[$i]][$j-1])) {
+                                      // MODIFICACION PARA COLUMNA 2 Y 3 (CUANDO ES SOLO UN COSECUTIVO AÑADE , EN VEZ DE _)
+                                      if (isset($pref[$res[$i]][$j+2])) {
+
+                                          if ($pref[$res[$i]][$j+2] == $pref[$res[$i]][$j] + 2) {
+                                            
+                                            $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j])."_";
+                                          }else {
+                                            $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).",";
+                                            
+                                          }
+                                        
+                                      }else{                                      
+                                          $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).",";
+                                      }
+
+
+
+                                    // $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j])."_";
+
+                                  }
+                                  else {
+
+                                    if (isset($pref[$res[$i]][$j+2])) {
+
+                                        if ($pref[$res[$i]][$j+2] == $pref[$res[$i]][$j] + 2) {
+                                          
+                                           $string[$i] = $string[$i].$pref[$res[$i]][$j]."_";
+                                        }else {
+                                           $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                                          
+                                        }
+
+                                    }else{                                      
+                                       $string[$i] = $string[$i].$pref[$res[$i]][$j].",";
+                                    }
+
+
+                                    // $string[$i] = $string[$i].$pref[$res[$i]][$j]."_";
+                                  }
+                              } 
+
+                              else {
+                                //NO HACE NADA PORQUE VIENE DE SECUENCIA Y SIGUE EN SECUENCIA
+                              }
+                          $flag = 1;
+                        } 
+
+                        else {
+                              //VERIFICA SI VIENE DE UNA SECUENCIA
+                              if($flag == 0){
+                                  //NO VIENE DE SECUENCIA Y NO VA PARA SECUENCIA, NUMERO,
+                                  if (isset($pref[$res[$i]][$j-1])) {
+                                    $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).".";
+                                  }
+                                  else {
+                                    $string[$i] = $string[$i].$pref[$res[$i]][$j].".";
+                                  }
+                              } 
+
+                              else {
+                                //NO VIENE DE SECUENCIA Y NO VA PARA SECUENCIA, NUMERO,
+                                  $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]).".";
+
+
+                              }
+                          $flag = 0;
+                        }
+                  }
+
+                  else {
+
+                    //COMO ES EL ULTIMO VALOR, SE PINTA EL NUMERO SOLO
+                    $string[$i] = $string[$i].$this->delecteCoinci($pref[$res[$i]][$j-1], $pref[$res[$i]][$j]);
+                  }
+            } 
+
+            else {
+              // CUANDO SOLO TIENE UN ELEMENTO EL ARRAY DE VALORES (IMPRIME SIN COMA NI OUNTO AL FINAL)
+              $string[$i] = $string[$i].$pref[$res[$i]][0];
+              // print_r("\n".$pref[$res[$i]][0]);
+
+            }
+          }
+          if($i != (count($res)-1)){
+            $respuesta = $respuesta.$string[$i].".";
+          } 
+          else {
+              $respuesta = $respuesta.$string[$i];
+          }
+        }
+
+        return $respuesta;
     }
+
+
+
+   
 
     //FUNCIONA
     // RETORNA SOLO LAS COINCIDENCIAS DE SE SEGUNDO NUMERO CON RESPECTO AL PRIMERO 
