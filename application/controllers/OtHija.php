@@ -38,7 +38,8 @@ class OtHija extends CI_Controller {
         $response = null;
         if (Auth::check()) {
             $otHijaModel = new Dao_ot_hija_model();
-            $res = $otHijaModel->getOtsFiteenDays();
+            $res['data'] = $otHijaModel->getOtsFiteenDays();
+            $res['count'] = $otHijaModel->getCountOtsFiteenDays()->data;
             $this->json($res);
         } else {
             $this->json(new Response(EMessages::SESSION_INACTIVE));

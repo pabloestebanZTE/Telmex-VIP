@@ -201,8 +201,9 @@ $(function () {
                     })
                     .success(function (response) {
 //                        console.log(response);
-                        if (app.successResponse(response)) {
-                            ini.fillTableOtsfiteenDays(response.data);
+                        $('#countBadge').html(response.count.cont);
+                        if (app.successResponse(response.data)) {
+                            ini.fillTableOtsfiteenDays(response.data.data);
                         } else {
                             ini.fillTableOtsfiteenDays([]);
                         }

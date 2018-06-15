@@ -108,6 +108,27 @@ class Dao_ot_hija_model extends CI_Model {
             return $ex;
         }
     }
+    
+    public function getCountOtsFiteenDays() {
+        try {
+            $db = new DB();
+            $condicion = "";
+            $usuario_session = Auth::user()->n_name_user . " " . Auth::user()->n_last_name_user;
+            if (Auth::user()->n_role_user == 'ingeniero') {
+                $condicion = "AND usuario_asignado like '%$usuario_session%'";
+            }
+            $datos = $db->select("SELECT count(*) as cont
+                                FROM telmex_vip.ot_hija
+                                WHERE ADDDATE(fecha_actual, INTERVAL 15 DAY) = CURDATE()
+                                $condicion")->first();
+            $response = new Response(EMessages::SUCCESS);
+            $response->setData($datos);
+            return $response;
+        } catch (DeplynException $ex) {
+            return $ex;
+        }
+    }
+    
 
 }
 

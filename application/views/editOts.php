@@ -23,7 +23,7 @@
                 <fieldset>
                     <div class="row">
                         <div class="col col-md-12" style="text-align: center;">
-                            <button class="btn btn-danger" id="btnOtsfiteenDays">OTs mas de 15 días</button>
+                            <button class="btn btn-danger" id="btnOtsfiteenDays">OTs mas de 15 días <span class="badge" id="countBadge">...</span></button>
                         </div>
                         <div class="col col-md-12 p-t-40">
                             <input type="hidden" value="<?= Auth::getRole() ?>" id="rol">
